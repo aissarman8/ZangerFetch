@@ -5,6 +5,7 @@
 
 // ── State ──────────────────────────────────────────────────
 let currentLang = 'ru';
+let chatHistory = [];
 
 // ── Gemini System Prompt ────────────────────────────────────
 const SYSTEM_PROMPT = `Ты — строгий, высокопрофессиональный юрист из Республики Казахстан. Твоё имя Zetef (ZF).
@@ -337,6 +338,7 @@ function initScenarioButtons() {
 function clearChat() {
   const messages = document.getElementById('chatMessages');
   messages.innerHTML = '';
+  chatHistory = []; // Очищаем память, если начали новую беседу
 }
 
 function appendUserMessage(text) {
@@ -404,11 +406,14 @@ function escapeHtml(str) {
 }
 
 async function callGemini(userMessage) {
+  // 1. Сохраняем сообщение пользователя в память
+  chatHistory.push({ role: 'user', parts: [{ text: userMessage }] });
+
   const res = await fetch('/api/chat', { 
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
     body: JSON.stringify({
-      userMessage: userMessage,
+      history: chatHistory, // 2. Отправляем всю память на сервер
       systemPrompt: SYSTEM_PROMPT
     })
   });
@@ -418,6 +423,10 @@ async function callGemini(userMessage) {
   const data = await res.json();
   const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
   if (!text) throw new Error('Пустой ответ от API');
+
+  // 3. Сохраняем ответ бота в память, чтобы он его помнил!
+  chatHistory.push({ role: 'model', parts: [{ text: text }] });
+
   return text;
 }
 
@@ -440,7 +449,3 @@ function removeTyping() {
   const t = document.getElementById('typingIndicator');
   if (t) t.remove();
 }
-
-
-
-
