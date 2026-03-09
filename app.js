@@ -16,7 +16,7 @@ const SYSTEM_PROMPT = `Ты — строгий, высокопрофессион
 3. Иногда (не в каждом сообщении, но к месту) позволяй себе легкий, интеллигентный сарказм — например, по поводу того, что люди не читают договоры перед подписанием, или по поводу бюрократии. Но не переходи на грубость.
 4. Отвечай на том же языке, на котором пишет пользователь (русский или казахский).
 5. Если даешь ответ, обязательно ссылайся на точные статьи законов РК (статьи, новости, налоговый кодекс, Конституция и так далее).
-6. Обязательно добавляй в конце дисклеймер: "P.S. Это информационная консультация, а не официальное юридическое заключение.`;
+6. Обязательно добавляй в конце дисклеймер: "P.S. Это информационная консультация, а не официальное юридическое заключение."`;
 
 // ── Language Data ───────────────────────────────────────────
 const chatPlaceholders = {
@@ -143,11 +143,6 @@ const scenarios = {
   }
 };
 
-const customResponse = {
-  ru: 'Ваш запрос принят. Zanger AI анализирует базу законодательства РК по вашей ситуации... Для наиболее точного ответа уточните детали — например, дату события, участвующие стороны и желаемый исход.',
-  kz: 'Сұрағыңыз қабылданды. Zanger AI жағдайыңыз бойынша ҚР заңнамасы дерекқорын талдауда... Дәлірек жауап үшін мәліметтерді нақтылаңыз — мысалы, оқиға күні, тараптар және қалаған нәтиже.'
-};
-
 // ── DOM Ready ───────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
   initNavbar();
@@ -181,7 +176,6 @@ function setLang(lang) {
   document.getElementById('btnRU').classList.toggle('active', lang === 'ru');
   document.getElementById('btnKZ').classList.toggle('active', lang === 'kz');
 
-  // Update all elements with data-ru / data-kz
   document.querySelectorAll('[data-ru][data-kz]').forEach(el => {
     const val = el.getAttribute(`data-${lang}`);
     if (!val) return;
@@ -192,18 +186,15 @@ function setLang(lang) {
     }
   });
 
-  // Chat placeholder
   const input = document.getElementById('chatInput');
   if (input) input.placeholder = chatPlaceholders[lang];
 
-  // Chat status
   const status = document.querySelector('.chat-status');
   if (status) {
     const val = status.getAttribute(`data-${lang}`);
     if (val) status.textContent = val;
   }
 
-  // Welcome message
   const welcome = document.getElementById('welcomeMsg');
   if (welcome) welcome.innerHTML = welcome.getAttribute(`data-${lang}`) || welcome.innerHTML;
 }
@@ -274,7 +265,7 @@ function animateCounters() {
     function update(now) {
       const elapsed = now - start;
       const progress = Math.min(elapsed / duration, 1);
-      const eased = 1 - Math.pow(1 - progress, 3); // ease-out cubic
+      const eased = 1 - Math.pow(1 - progress, 3);
       const value = Math.round(eased * target);
       el.textContent = target >= 1000 ? value.toLocaleString('ru-RU') : value + '+';
       if (progress < 1) requestAnimationFrame(update);
@@ -292,7 +283,11 @@ function initChat() {
 
   sendBtn.addEventListener('click', handleSend);
   input.addEventListener('keydown', e => {
-    if (e.key === 'Enter') handleSend();
+    // Умная отправка: Enter отправляет, Shift+Enter делает перенос
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault(); 
+      handleSend();       
+    }
   });
 }
 
@@ -334,7 +329,6 @@ function initScenarioButtons() {
         appendAiMessage(scenario.ai[currentLang], scenario.cite);
       });
 
-      // Scroll demo into view
       document.getElementById('demo').scrollIntoView({ behavior: 'smooth', block: 'start' });
     });
   });
@@ -394,7 +388,7 @@ function appendAiMessage(html, cite) {
         ${html}
         ${cite ? `<div style="margin-top:0.5rem;"><span class="law-cite">📖 ${cite}</span></div>` : ''}
       </div>
-      <div class="msg-meta">Zanger AI · ${currentLang === 'ru' ? 'сейчас' : 'қазір'}</div>
+      <div class="msg-meta">Zetef (ZF) · ${currentLang === 'ru' ? 'сейчас' : 'қазір'}</div>
     </div>
   `;
   messages.appendChild(div);
@@ -410,7 +404,6 @@ function escapeHtml(str) {
 }
 
 async function callGemini(userMessage) {
-  // Теперь обращаемся к нашему безопасному посреднику
   const res = await fetch('/api/chat', { 
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },
@@ -423,13 +416,11 @@ async function callGemini(userMessage) {
   if (!res.ok) throw new Error(`Ошибка: ${res.status}`);
 
   const data = await res.json();
-  console.log("Ответ от сервера:", data);
   const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
   if (!text) throw new Error('Пустой ответ от API');
   return text;
 }
 
-// ── Async typing helpers ────────────────────────────────────────────────────
 function showTypingRaw() {
   const messages = document.getElementById('chatMessages');
   const el = document.createElement('div');
@@ -449,6 +440,7 @@ function removeTyping() {
   const t = document.getElementById('typingIndicator');
   if (t) t.remove();
 }
+
 
 
 
