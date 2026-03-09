@@ -2,8 +2,7 @@ export default async function handler(req, res) {
   // Проверяем, что запрос правильный
   if (req.method !== 'POST') return res.status(405).send('Метод не разрешен');
 
-  const { userMessage, systemPrompt } = req.body;
-  // Ключ теперь будет браться из скрытых настроек Vercel
+  const { history, systemPrompt } = req.body;
   const apiKey = process.env.GEMINI_API_KEY; 
 
   const url = `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent?key=${apiKey}`;
@@ -14,7 +13,7 @@ export default async function handler(req, res) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         system_instruction: { parts: [{ text: systemPrompt }] },
-        contents: [{ role: 'user', parts: [{ text: userMessage }] }],
+        contents: history, // 🧠 ТЕПЕРЬ МЫ ОТПРАВЛЯЕМ ВСЮ ИСТОРИЮ!
         generationConfig: { temperature: 0.4, maxOutputTokens: 8192 }
       })
     });
