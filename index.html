@@ -42,16 +42,17 @@
     .msg-bubble { box-shadow: 0 2px 5px rgba(0,0,0,0.05) !important; }
 
     /* =========================================
-       МОБИЛЬНОЕ МЕНЮ (НОВЫЙ БЛОК)
+       МОБИЛЬНОЕ МЕНЮ (ИСПРАВЛЕННЫЕ ЦВЕТА)
        ========================================= */
     .nav-inner { position: relative; display: flex; align-items: center; justify-content: space-between; }
     .hamburger { display: none; cursor: pointer; flex-direction: column; gap: 5px; margin-left: 15px; }
-    .hamburger span { width: 25px; height: 3px; background: #1e3a8a; border-radius: 3px; transition: 0.3s; }
+    /* Полоски гамбургера теперь БЕЛЫЕ, чтобы их было видно на синей шапке */
+    .hamburger span { width: 25px; height: 3px; background: #ffffff; border-radius: 3px; transition: 0.3s; }
     
     @media (max-width: 768px) {
       .hamburger { display: flex; }
       .nav-links { 
-        display: none; /* Скрыто по умолчанию на мобилках */
+        display: none; 
         position: absolute; 
         top: 100%; 
         left: 0; 
@@ -63,10 +64,11 @@
         border-top: 1px solid #e2e8f0; 
         z-index: 1000;
       }
-      .nav-links.active-menu { display: flex !important; } /* Класс для показа меню */
+      .nav-links.active-menu { display: flex !important; } 
       .nav-links li { margin: 12px 0; text-align: center; }
-      .nav-links a { color: #1e3a8a; font-size: 1.1rem; }
-      .nav-links a.active { color: #2563eb; border-bottom: 2px solid #2563eb; }
+      /* Текст принудительно делаем СИНИМ (!important), чтобы перебить белый цвет из style.css */
+      .nav-links a { color: #1e3a8a !important; font-size: 1.1rem; }
+      .nav-links a.active { color: #2563eb !important; border-bottom: 2px solid #2563eb !important; padding-bottom: 4px; }
     }
   </style>
 </head>
@@ -230,38 +232,30 @@
   </main>
 
   <script>
-    // ЛОГИКА РАБОТЫ МЕНЮ И ВКЛАДОК
     const hamburgerBtn = document.getElementById('hamburgerBtn');
     const navLinksMenu = document.getElementById('navLinksMenu');
 
-    // Открытие/закрытие меню по клику на гамбургер
     if (hamburgerBtn && navLinksMenu) {
       hamburgerBtn.addEventListener('click', () => {
         navLinksMenu.classList.toggle('active-menu');
       });
     }
 
-    // Переключение вкладок
     function switchTab(tabId) {
-      // 1. Прячем мобильное меню, если оно было открыто
       if (navLinksMenu) {
         navLinksMenu.classList.remove('active-menu');
       }
 
-      // 2. Прячем все вкладки
       document.querySelectorAll('.tab-pane').forEach(tab => {
         tab.classList.remove('active');
       });
-      // 3. Снимаем выделение со всех ссылок в меню
       document.querySelectorAll('.tab-link').forEach(link => {
         link.classList.remove('active');
       });
 
-      // 4. Показываем нужную вкладку
       const activeTab = document.getElementById(tabId);
       if(activeTab) activeTab.classList.add('active');
 
-      // 5. Делаем жирным ссылку в меню, которая относится к этой вкладке
       const activeLink = document.querySelector(`.tab-link[onclick="switchTab('${tabId}')"]`);
       if(activeLink) activeLink.classList.add('active');
     }
