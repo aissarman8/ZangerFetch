@@ -40,6 +40,34 @@
     .chat-send { background: #2563eb !important; color: white !important; }
     .chat-send:hover { background: #1d4ed8 !important; }
     .msg-bubble { box-shadow: 0 2px 5px rgba(0,0,0,0.05) !important; }
+
+    /* =========================================
+       МОБИЛЬНОЕ МЕНЮ (НОВЫЙ БЛОК)
+       ========================================= */
+    .nav-inner { position: relative; display: flex; align-items: center; justify-content: space-between; }
+    .hamburger { display: none; cursor: pointer; flex-direction: column; gap: 5px; margin-left: 15px; }
+    .hamburger span { width: 25px; height: 3px; background: #1e3a8a; border-radius: 3px; transition: 0.3s; }
+    
+    @media (max-width: 768px) {
+      .hamburger { display: flex; }
+      .nav-links { 
+        display: none; /* Скрыто по умолчанию на мобилках */
+        position: absolute; 
+        top: 100%; 
+        left: 0; 
+        width: 100%; 
+        background: #ffffff; 
+        flex-direction: column; 
+        padding: 20px 0; 
+        box-shadow: 0 10px 15px rgba(0,0,0,0.1); 
+        border-top: 1px solid #e2e8f0; 
+        z-index: 1000;
+      }
+      .nav-links.active-menu { display: flex !important; } /* Класс для показа меню */
+      .nav-links li { margin: 12px 0; text-align: center; }
+      .nav-links a { color: #1e3a8a; font-size: 1.1rem; }
+      .nav-links a.active { color: #2563eb; border-bottom: 2px solid #2563eb; }
+    }
   </style>
 </head>
 
@@ -51,16 +79,22 @@
         <span class="logo-icon">⚖️</span>
         <span>Zanger <em>AI</em></span>
       </a>
-      <ul class="nav-links">
+      
+      <ul class="nav-links" id="navLinksMenu">
         <li><a class="tab-link active" onclick="switchTab('tab-chat')">Чат с Zetef</a></li>
         <li><a class="tab-link" onclick="switchTab('tab-features')">Возможности</a></li>
         <li><a class="tab-link" onclick="switchTab('tab-services')">Наши услуги</a></li>
         <li><a class="tab-link" onclick="switchTab('tab-auth')">Регистрация</a></li>
       </ul>
-      <div class="nav-actions">
+      
+      <div class="nav-actions" style="display: flex; align-items: center;">
         <div class="lang-toggle" id="langToggle">
           <button class="lang-btn active" data-lang="ru" id="btnRU">RU</button>
           <button class="lang-btn" data-lang="kz" id="btnKZ">ҚАЗ</button>
+        </div>
+        
+        <div class="hamburger" id="hamburgerBtn">
+          <span></span><span></span><span></span>
         </div>
       </div>
     </div>
@@ -96,7 +130,7 @@
               <div class="msg ai">
                 <div class="msg-avatar" style="background: #eff6ff; border: 1px solid #bfdbfe;">⚖️</div>
                 <div>
-                  <div class="msg-bubble">
+                  <div class="msg-bubble" id="welcomeMsg">
                     Здравствуйте. Я Zetef. Опишите вашу правовую ситуацию, и я предоставлю анализ согласно законодательству Республики Казахстан.
                   </div>
                   <div class="msg-meta">Zetef · сейчас</div>
@@ -196,22 +230,38 @@
   </main>
 
   <script>
-    // ИСПРАВЛЕННЫЙ СКРИПТ ПЕРЕКЛЮЧЕНИЯ ВКЛАДОК
+    // ЛОГИКА РАБОТЫ МЕНЮ И ВКЛАДОК
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const navLinksMenu = document.getElementById('navLinksMenu');
+
+    // Открытие/закрытие меню по клику на гамбургер
+    if (hamburgerBtn && navLinksMenu) {
+      hamburgerBtn.addEventListener('click', () => {
+        navLinksMenu.classList.toggle('active-menu');
+      });
+    }
+
+    // Переключение вкладок
     function switchTab(tabId) {
-      // Прячем все вкладки
+      // 1. Прячем мобильное меню, если оно было открыто
+      if (navLinksMenu) {
+        navLinksMenu.classList.remove('active-menu');
+      }
+
+      // 2. Прячем все вкладки
       document.querySelectorAll('.tab-pane').forEach(tab => {
         tab.classList.remove('active');
       });
-      // Снимаем выделение со всех ссылок в меню
+      // 3. Снимаем выделение со всех ссылок в меню
       document.querySelectorAll('.tab-link').forEach(link => {
         link.classList.remove('active');
       });
 
-      // Показываем нужную вкладку
+      // 4. Показываем нужную вкладку
       const activeTab = document.getElementById(tabId);
       if(activeTab) activeTab.classList.add('active');
 
-      // Делаем жирным ссылку в меню, которая относится к этой вкладке
+      // 5. Делаем жирным ссылку в меню, которая относится к этой вкладке
       const activeLink = document.querySelector(`.tab-link[onclick="switchTab('${tabId}')"]`);
       if(activeLink) activeLink.classList.add('active');
     }
