@@ -451,7 +451,7 @@ function removeTyping() {
 }
 
 // ==========================================
-// ЛОГИКА ЧАТА С ZETEF И ФОРМАТИРОВАНИЕ MARKDOWN
+// ЛОГИКА ЧАТА С ZETEF И ФОРМАТИРОВАНИЕ MARKDOWN (ИСПРАВЛЕНО)
 // ==========================================
 document.addEventListener("DOMContentLoaded", () => {
     // Находим нужные элементы на странице
@@ -460,7 +460,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const chatMessages = document.getElementById("chatMessages");
     const scenarioBtns = document.querySelectorAll(".scenario-btn");
     
-    // Если элементов чата нет на странице (например, мы на другой вкладке), прерываем работу
+    // Если элементов чата нет на странице, прерываем работу
     if (!chatInput || !chatSend || !chatMessages) return;
 
     // 1. ФУНКЦИЯ ФОРМАТИРОВАНИЯ ТЕКСТА (MARKDOWN)
@@ -503,18 +503,16 @@ document.addEventListener("DOMContentLoaded", () => {
         chatMessages.scrollTop = chatMessages.scrollHeight; 
     }
 
-    // 3. ОБРАБОТЧИК ОТПРАВКИ СООБЩЕНИЯ
+    // ==========================================
+    // 3. ОБРАБОТЧИК ОТПРАВКИ СООБЩЕНИЯ (ИСПРАВЛЕНО)
+    // ==========================================
     function sendMessage(text) {
-        if (!text.trim()) return;
+        if (!text.trim()) return; 
         
-        appendMessage("user", text);
-        chatInput.value = ""; 
+        appendMessage("user", text); // Добавляем сообщение пользователя в чат
+        chatInput.value = ""; // Очищаем поле ввода
 
-        // Имитируем ответ ИИ
-        setTimeout(() => {
-            const botReply = "Согласно законодательству Республики Казахстан, вот правовой анализ вашей ситуации:\n\n**1. Нормативная база:**\n* Трудовой кодекс РК.\n* Гражданский кодекс РК.\n\n**2. Рекомендуемые действия:**\nВам необходимо направить официальную досудебную претензию.\n\nЯ могу подготовить для вас шаблон документа. Напишите: **«Составь документ»**.";
-            appendMessage("ai", botReply);
-        }, 1200); 
+        // УБРАЛИ DEMO-ОТВЕТ. ТЕПЕРЬ ОН БУДЕТ ЗАПРАШИВАТЬСЯ В callGemini
     }
 
     chatSend.addEventListener("click", () => sendMessage(chatInput.value));
@@ -523,14 +521,21 @@ document.addEventListener("DOMContentLoaded", () => {
         if (e.key === "Enter") sendMessage(chatInput.value);
     });
 
-    // 4. КНОПКИ БЫСТРЫХ СЦЕНАРИЕВ
+    // ==========================================
+    // 4. КНОПКИ БЫСТРЫХ СЦЕНАРИЕВ (ИСПРАВЛЕНО)
+    // ==========================================
     if (scenarioBtns.length > 0) {
         scenarioBtns.forEach(btn => {
             btn.addEventListener("click", () => {
+                // Меняем визуально активную кнопку
                 scenarioBtns.forEach(b => b.classList.remove("active"));
                 btn.classList.add("active");
+                
                 const scenarioText = btn.querySelector("span:nth-child(2)").textContent;
-                sendMessage(scenarioText);
+                
+                // НОВОЕ: Подставляем текст в поле ввода, вместо автоматической отправки
+                chatInput.value = scenarioText; 
+                chatInput.focus(); // Фокусируемся на поле ввода
             });
         });
     }
