@@ -1533,3 +1533,68 @@ section {
     align-items: center;
   }
 }
+/* ============================================================
+   ZANGER AI — НОВАЯ СИНЕ-БЕЛАЯ ТЕМА
+============================================================ */
+
+/* 1. Общий фон и текст */
+body {
+  background-color: #f0f4f8 !important; /* Очень светло-голубой, приятный глазу фон */
+  color: #1e293b !important; /* Темно-синий, почти черный текст для контраста */
+}
+
+/* 2. Шапка сайта */
+#navbar {
+  background-color: #1e3a8a !important; /* Строгий темно-синий */
+  color: #ffffff !important;
+  box-shadow: 0 4px 6px -1px rgba(30, 58, 138, 0.2) !important;
+}
+
+/* 3. Кнопки и интерактивные элементы */
+button, .scenario-btn {
+  background-color: #ffffff !important;
+  color: #2563eb !important; /* Яркий синий текст */
+  border: 1px solid #bfdbfe !important;
+  border-radius: 8px !important;
+}
+
+button:hover, .scenario-btn:hover, .scenario-btn.active {
+  background-color: #2563eb !important; /* Яркий синий при наведении */
+  color: #ffffff !important;
+  border-color: #2563eb !important;
+}
+
+/* 4. Окно чата */
+#chatContainer, .chat-window {
+  background-color: #ffffff !important;
+  border: 1px solid #e2e8f0 !important;
+  box-shadow: 0 10px 25px rgba(37, 99, 235, 0.1) !important;
+  border-radius: 12px !important;
+}
+
+/* 5. Дизайн сообщений пользователя (светло-голубые) */
+.msg.user .msg-bubble {
+  background-color: #dbeafe !important; 
+  color: #1e3a8a !important;
+  border-bottom-right-radius: 4px !important;
+}
+
+/* 6. Дизайн сообщений юриста Zetef (белые с обводкой) */
+.msg.ai .msg-bubble {
+  background-color: #ffffff !important;
+  color: #0f172a !important;
+  border: 1px solid #cbd5e1 !important;
+  border-bottom-left-radius: 4px !important;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.02) !important;
+}
+
+/* 7. Кнопка отправки сообщения */
+#chatSend {
+  background-color: #2563eb !important;
+  color: white !important;
+  border: none !important;
+}
+
+#chatSend:hover {
+  background-color: #1d4ed8 !important; /* Чуть темнее при наведении */
+}
