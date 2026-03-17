@@ -450,4 +450,88 @@ function removeTyping() {
   if (t) t.remove();
 }
 
+// ==========================================
+// ЛОГИКА ЧАТА С ZETEF И ФОРМАТИРОВАНИЕ MARKDOWN
+// ==========================================
+document.addEventListener("DOMContentLoaded", () => {
+    // Находим нужные элементы на странице
+    const chatInput = document.getElementById("chatInput");
+    const chatSend = document.getElementById("chatSend");
+    const chatMessages = document.getElementById("chatMessages");
+    const scenarioBtns = document.querySelectorAll(".scenario-btn");
+    
+    // Если элементов чата нет на странице (например, мы на другой вкладке), прерываем работу
+    if (!chatInput || !chatSend || !chatMessages) return;
 
+    // 1. ФУНКЦИЯ ФОРМАТИРОВАНИЯ ТЕКСТА (MARKDOWN)
+    function formatMarkdown(text) {
+        let html = text;
+        html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); // Жирный
+        html = html.replace(/\*(.*?)\*/g, '<em>$1</em>'); // Курсив
+        html = html.replace(/^\* (.*$)/gim, '• $1'); // Списки (*)
+        html = html.replace(/^\- (.*$)/gim, '• $1'); // Списки (-)
+        html = html.replace(/\n/g, '<br>'); // Переносы строк
+        return html;
+    }
+
+    // 2. ФУНКЦИЯ ДОБАВЛЕНИЯ СООБЩЕНИЯ В ЧАТ
+    function appendMessage(role, text) {
+        const msgDiv = document.createElement("div");
+        msgDiv.classList.add("msg", role === "user" ? "user" : "ai");
+
+        const now = new Date();
+        const timeString = now.getHours() + ':' + (now.getMinutes() < 10 ? '0' : '') + now.getMinutes();
+
+        if (role === "ai") {
+            msgDiv.innerHTML = `
+                <div class="msg-avatar" style="background: #eff6ff; border: 1px solid #bfdbfe;">⚖️</div>
+                <div>
+                    <div class="msg-bubble" style="box-shadow: 0 2px 5px rgba(0,0,0,0.05);">${formatMarkdown(text)}</div>
+                    <div class="msg-meta">Zetef · ${timeString}</div>
+                </div>
+            `;
+        } else {
+            msgDiv.innerHTML = `
+                <div style="margin-left: auto; text-align: right; width: 100%; display: flex; flex-direction: column; align-items: flex-end;">
+                    <div class="msg-bubble" style="background: #2563eb; color: #fff; border-bottom-right-radius: 4px; border-bottom-left-radius: 12px; border-top-left-radius: 12px; border-top-right-radius: 12px; display: inline-block;">${text}</div>
+                    <div class="msg-meta" style="justify-content: flex-end;">Вы · ${timeString}</div>
+                </div>
+            `;
+        }
+
+        chatMessages.appendChild(msgDiv);
+        chatMessages.scrollTop = chatMessages.scrollHeight; 
+    }
+
+    // 3. ОБРАБОТЧИК ОТПРАВКИ СООБЩЕНИЯ
+    function sendMessage(text) {
+        if (!text.trim()) return;
+        
+        appendMessage("user", text);
+        chatInput.value = ""; 
+
+        // Имитируем ответ ИИ
+        setTimeout(() => {
+            const botReply = "Согласно законодательству Республики Казахстан, вот правовой анализ вашей ситуации:\n\n**1. Нормативная база:**\n* Трудовой кодекс РК.\n* Гражданский кодекс РК.\n\n**2. Рекомендуемые действия:**\nВам необходимо направить официальную досудебную претензию.\n\nЯ могу подготовить для вас шаблон документа. Напишите: **«Составь документ»**.";
+            appendMessage("ai", botReply);
+        }, 1200); 
+    }
+
+    chatSend.addEventListener("click", () => sendMessage(chatInput.value));
+    
+    chatInput.addEventListener("keypress", (e) => {
+        if (e.key === "Enter") sendMessage(chatInput.value);
+    });
+
+    // 4. КНОПКИ БЫСТРЫХ СЦЕНАРИЕВ
+    if (scenarioBtns.length > 0) {
+        scenarioBtns.forEach(btn => {
+            btn.addEventListener("click", () => {
+                scenarioBtns.forEach(b => b.classList.remove("active"));
+                btn.classList.add("active");
+                const scenarioText = btn.querySelector("span:nth-child(2)").textContent;
+                sendMessage(scenarioText);
+            });
+        });
+    }
+});
