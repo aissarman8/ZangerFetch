@@ -1537,10 +1537,24 @@ section {
    ZANGER AI — НОВАЯ СИНЕ-БЕЛАЯ ТЕМА
 ============================================================ */
 
-/* 1. Общий фон и текст */
-body {
-  background-color: #f0f4f8 !important; /* Очень светло-голубой, приятный глазу фон */
-  color: #1e293b !important; /* Темно-синий, почти черный текст для контраста */
+/* 1. Тотальный светлый фон и темный текст */
+body, main, section, header, footer, .hero, div[class*="bg-"] {
+  background-color: #ffffff !important;
+  background-image: none !important; /* Убирает темные сетки на фоне */
+  color: #1e293b !important;
+}
+
+/* Принудительно делаем все заголовки и тексты читабельными */
+h1, h2, h3, h4, h5, h6, p, span {
+  color: #1e293b !important;
+}
+
+/* Исключение: Шапка сайта и текст внутри нее должны остаться синими/белыми */
+#navbar {
+  background-color: #1e3a8a !important; 
+}
+#navbar span, #navbar a {
+  color: #ffffff !important;
 }
 
 /* 2. Шапка сайта */
