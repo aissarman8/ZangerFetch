@@ -8,10 +8,7 @@
   <meta name="description" content="Zanger AI — специализированная ИИ-платформа для правовой грамотности в РК." />
   <link rel="stylesheet" href="style.css" />
   <style>
-    /* =========================================
-       ИСПРАВЛЕНИЕ НАЕЗДА МЕНЮ НА ТЕКСТ
-       Добавляем отступ сверху (padding-top) 
-       ========================================= */
+    /* Отступ сверху, чтобы меню не наезжало на текст */
     main { padding-top: 100px; } 
 
     /* Базовые стили для переключения вкладок */
@@ -29,13 +26,44 @@
     .auth-form button:hover { background: #1d4ed8; }
     .demo-wrapper { align-items: flex-start; }
     
-    /* СВЕТЛЫЕ КАРТОЧКИ ДЛЯ НОВОЙ ВКЛАДКИ "ВОЗМОЖНОСТИ" */
+    /* Светлые карточки для вкладки "Возможности" */
     .feature-card { background: #ffffff; border: 1px solid #e2e8f0; border-radius: 12px; padding: 25px; box-shadow: 0 4px 15px rgba(37, 99, 235, 0.08); text-align: left; transition: transform 0.2s; }
     .feature-card:hover { transform: translateY(-5px); }
     .feature-card h3 { color: #1e3a8a; margin-bottom: 10px; font-size: 1.2rem; }
     .feature-card p { color: #475569; font-size: 0.95rem; line-height: 1.5; }
     .feature-icon { font-size: 2.5rem; margin-bottom: 15px; display: inline-block; padding: 10px; background: #eff6ff; border-radius: 10px; }
     .features-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 30px; }
+
+    /* =========================================
+       ПЕРЕКРАШИВАЕМ ЧАТ В СВЕТЛУЮ ТЕМУ
+       ========================================= */
+    .chat-header {
+      background: linear-gradient(135deg, #1e3a8a, #2563eb) !important; /* Синий градиент */
+      color: #ffffff !important;
+      border-bottom: none !important;
+    }
+    .chat-input-area {
+      background: #f8fafc !important; /* Светло-серый фон */
+      border-top: 1px solid #e2e8f0 !important;
+    }
+    .chat-input {
+      background: #ffffff !important; /* Белое поле ввода */
+      color: #1e293b !important; /* Темный текст */
+      border: 1px solid #cbd5e1 !important;
+    }
+    .chat-input::placeholder {
+      color: #94a3b8 !important; /* Серый текст подсказки */
+    }
+    .chat-send {
+      background: #2563eb !important; /* Синяя кнопка отправки */
+      color: white !important;
+    }
+    .chat-send:hover {
+      background: #1d4ed8 !important;
+    }
+    .msg-bubble {
+      box-shadow: 0 2px 5px rgba(0,0,0,0.05) !important;
+    }
   </style>
 </head>
 
@@ -82,17 +110,17 @@
             </div>
           </div>
           
-          <div class="chat-window reveal" style="width: 100%; max-width: 600px;">
+          <div class="chat-window reveal" style="width: 100%; max-width: 600px; border: 1px solid #e2e8f0; box-shadow: 0 10px 30px rgba(37, 99, 235, 0.1);">
             <div class="chat-header">
-              <div class="chat-avatar">⚖️</div>
+              <div class="chat-avatar" style="background: rgba(255,255,255,0.2);">⚖️</div>
               <div class="chat-header-info">
                 <div class="chat-name">Zetef (ZF)</div>
                 <div class="chat-status" data-ru="Онлайн · Законы РК 2024" data-kz="Желіде · ҚР Заңдары">Онлайн · Законы РК 2024</div>
               </div>
             </div>
-            <div class="chat-messages" id="chatMessages">
+            <div class="chat-messages" id="chatMessages" style="background: #ffffff;">
               <div class="msg ai">
-                <div class="msg-avatar">⚖️</div>
+                <div class="msg-avatar" style="background: #eff6ff; border: 1px solid #bfdbfe;">⚖️</div>
                 <div>
                   <div class="msg-bubble" id="welcomeMsg" data-ru="Здравствуйте. Я Zetef. Опишите вашу правовую ситуацию, и я предоставлю анализ согласно законодательству Республики Казахстан.">
                     Здравствуйте. Я Zetef. Опишите вашу правовую ситуацию, и я предоставлю анализ согласно законодательству Республики Казахстан.
@@ -114,29 +142,29 @@
       <div class="container">
         <div class="usecases-header text-center reveal">
           <h2 class="section-title">Что умеет Zetef и как им пользоваться?</h2>
-          <p class="section-subtitle">Zetef — это строгий ИИ-юрист, обученный на законодательной базе Республики Казахстан. Он заменяет часы юридических консультаций.</p>
+          <p class="section-subtitle">Zetef — это строгий ИИ-юрист, обученный на законодательной базе Республики Казахстан.</p>
         </div>
         
         <div class="features-grid">
           <div class="feature-card">
             <div class="feature-icon">📝</div>
             <h3>Составление документов</h3>
-            <p>Zetef может за секунды сгенерировать претензию, иск, жалобу или официальное письмо с правильными ссылками на статьи законов РК. Просто напишите ему: <i>«Составь жалобу в трудовую инспекцию»</i>.</p>
+            <p>Zetef может за секунды сгенерировать претензию, иск, жалобу или официальное письмо с правильными ссылками на статьи законов РК.</p>
           </div>
           <div class="feature-card">
             <div class="feature-icon">🔍</div>
             <h3>Правовой анализ ситуаций</h3>
-            <p>Опишите вашу проблему обычными словами. Zetef задаст 1-2 уточняющих вопроса, после чего выдаст четкий алгоритм действий, чтобы законно защитить ваши права.</p>
+            <p>Опишите вашу проблему. Zetef задаст уточняющие вопросы и выдаст четкий алгоритм действий для защиты ваших прав.</p>
           </div>
           <div class="feature-card">
             <div class="feature-icon">💼</div>
             <h3>Поддержка бизнеса (B2B)</h3>
-            <p>Бот поможет выбрать налоговый режим (Упрощенка или ОУР), проверит договоры на подводные камни по Гражданскому кодексу и подскажет, как легально избежать штрафов.</p>
+            <p>Бот поможет выбрать налоговый режим, проверит договоры на подводные камни по ГК РК и подскажет, как легально избежать штрафов.</p>
           </div>
           <div class="feature-card">
             <div class="feature-icon">🛡️</div>
             <h3>Защита прав потребителей</h3>
-            <p>Продали бракованный товар или отказываются возвращать деньги? Zetef расскажет, как применить Закон РК «О защите прав потребителей» на практике.</p>
+            <p>Продали бракованный товар или отказываются возвращать деньги? Zetef расскажет, как применить закон на практике.</p>
           </div>
         </div>
       </div>
@@ -145,19 +173,34 @@
     <section id="tab-services" class="tab-pane">
       <div class="container">
         <div class="modules-header text-center reveal">
-          <h2 class="section-title">Наши Услуги и Модули</h2>
-          <p class="section-subtitle">Zanger AI объединяет защиту бизнеса и гражданских прав в единую интеллектуальную систему.</p>
+          <h2 class="section-title">Наши Услуги и Тарифы</h2>
+          <p class="section-subtitle">Базовые юридические консультации бесплатны. Для бизнеса мы предлагаем продвинутые решения.</p>
         </div>
-        <div class="features-grid">
+        
+        <div class="features-grid" style="margin-bottom: 40px;">
           <div class="feature-card" style="border-top: 4px solid #d4a843;">
             <h3 style="color:#d4a843;">Для Граждан (B2C)</h3>
-            <p>Правовой триаж: семейное, жилищное, трудовое право. Генерация жалоб и исков в госорганы. Быстрая защита ваших потребительских прав.</p>
+            <p>Правовой триаж: семейное, жилищное, трудовое право. Генерация жалоб и исков в госорганы. Быстрая защита ваших прав.</p>
+            <div style="margin-top: 15px; font-weight: bold; color: #10b981;">Бесплатно</div>
           </div>
           <div class="feature-card" style="border-top: 4px solid #2563eb;">
             <h3>Для Бизнеса (B2B)</h3>
             <p>Анализ договоров, проверка налогового режима по ОКЭД, лицензирование и разрешения для малого и среднего бизнеса.</p>
+            <div style="margin-top: 15px; font-weight: bold; color: #10b981;">Бесплатно (Базовый)</div>
           </div>
         </div>
+
+        <div class="pricing-card reveal" style="max-width: 800px; margin: 0 auto; background: linear-gradient(135deg, #f8fafc, #eff6ff); border: 2px solid #2563eb; border-radius: 16px; padding: 40px; text-align: center; box-shadow: 0 10px 30px rgba(37, 99, 235, 0.15);">
+          <div style="display: inline-block; background: #2563eb; color: #fff; padding: 6px 16px; border-radius: 20px; font-size: 0.9rem; font-weight: bold; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px;">PRO Подписка</div>
+          <h3 style="color: #1e3a8a; font-size: 2.2rem; margin-bottom: 10px;">Zetef Бухгалтер</h3>
+          <div style="font-size: 3rem; font-weight: bold; color: #2563eb; margin-bottom: 20px;">$15 <span style="font-size: 1.2rem; color: #64748b; font-weight: normal;">/ месяц</span></div>
+          <p style="color: #475569; margin-bottom: 30px; font-size: 1.1rem; line-height: 1.6; max-width: 600px; margin-left: auto; margin-right: auto;">
+            Замените штатного специалиста умным ИИ. Полное ведение бухгалтерского учета для ИП и ТОО. Zetef автоматически рассчитывает налоги, подготавливает отчетность (формы 200.00, 910.00 и др.), проверяет контрагентов и проактивно предупреждает о сроках сдачи ФНО.
+          </p>
+          <button style="background: #2563eb; color: #fff; border: none; padding: 15px 40px; font-size: 1.2rem; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s;" onmouseover="this.style.background='#1d4ed8'" onmouseout="this.style.background='#2563eb'" onclick="alert('Перенаправление на страницу оплаты (в разработке)...')">Оформить подписку</button>
+          <div style="margin-top: 15px; font-size: 0.85rem; color: #94a3b8;">Отменить можно в любой момент. Доступ к API включен.</div>
+        </div>
+
       </div>
     </section>
 
