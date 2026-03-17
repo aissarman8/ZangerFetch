@@ -1,487 +1,175 @@
-﻿<!DOCTYPE html>
+<!DOCTYPE html>
 <html lang="ru">
 
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Zanger AI — Интеллектуальный правовой навигатор Казахстана</title>
-  <meta name="description"
-    content="Zanger AI — специализированная ИИ-платформа для правовой грамотности в РК. Для предпринимателей и граждан." />
+  <title>Zanger AI — Ваш юрист Zetef</title>
+  <meta name="description" content="Zanger AI — специализированная ИИ-платформа для правовой грамотности в РК." />
   <link rel="stylesheet" href="style.css" />
+  <style>
+    /* Базовые стили для переключения вкладок */
+    .tab-pane { display: none; padding: 40px 0; }
+    .tab-pane.active { display: block; animation: fadeIn 0.3s ease-in-out; }
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+    .nav-links a { cursor: pointer; }
+    .nav-links a.active { font-weight: bold; border-bottom: 2px solid #ffffff; padding-bottom: 4px; }
+    
+    /* Стили для формы авторизации */
+    .auth-container { max-width: 400px; margin: 0 auto; background: #fff; padding: 30px; border-radius: 12px; box-shadow: 0 10px 25px rgba(37, 99, 235, 0.1); border: 1px solid #e2e8f0; }
+    .auth-container h2 { text-align: center; margin-bottom: 20px; color: #1e3a8a; }
+    .auth-form input { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #cbd5e1; border-radius: 8px; box-sizing: border-box; }
+    .auth-form button { width: 100%; padding: 12px; background: #2563eb; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer; }
+    .auth-form button:hover { background: #1d4ed8; }
+    .demo-wrapper { align-items: flex-start; } /* Поднимаем чат наверх */
+  </style>
 </head>
 
 <body>
 
-  <!-- NAVBAR -->
   <nav id="navbar">
     <div class="container nav-inner">
-      <a href="#" class="nav-logo">
+      <a href="#" class="nav-logo" onclick="switchTab('tab-chat')">
         <span class="logo-icon">⚖️</span>
         <span>Zanger <em>AI</em></span>
       </a>
       <ul class="nav-links">
-        <li><a href="#modules" data-ru="Модули" data-kz="Модульдер">Модули</a></li>
-        <li><a href="#how" data-ru="Как работает" data-kz="Қалай жұмыс істейді">Как работает</a></li>
-        <li><a href="#demo" data-ru="Демо" data-kz="Демо">Демо</a></li>
-        <li><a href="#usecases" data-ru="Применение" data-kz="Қолданыс">Применение</a></li>
+        <li><a class="tab-link active" onclick="switchTab('tab-chat')" data-ru="Чат с Zetef" data-kz="Zetef-пен чат">Чат с Zetef</a></li>
+        <li><a class="tab-link" onclick="switchTab('tab-services')" data-ru="Наши услуги" data-kz="Біздің қызметтер">Наши услуги</a></li>
+        <li><a class="tab-link" onclick="switchTab('tab-reviews')" data-ru="Отзывы" data-kz="Пікірлер">Отзывы</a></li>
+        <li><a class="tab-link" onclick="switchTab('tab-auth')" data-ru="Регистрация" data-kz="Тіркелу">Регистрация</a></li>
       </ul>
       <div class="nav-actions">
         <div class="lang-toggle" id="langToggle">
           <button class="lang-btn active" data-lang="ru" id="btnRU">RU</button>
           <button class="lang-btn" data-lang="kz" id="btnKZ">ҚАЗ</button>
         </div>
-        <a href="#demo" class="btn btn-primary" id="navCTA" data-ru="Попробовать"
-          data-kz="Қолданып көру">Попробовать</a>
       </div>
     </div>
   </nav>
 
-  <!-- HERO -->
-  <section id="hero">
-    <div class="orb orb-1"></div>
-    <div class="orb orb-2"></div>
-    <div class="orb orb-3"></div>
-    <div class="container">
-      <div class="hero-content">
-        <div class="hero-badge">
-          <span class="badge">🇰🇿 <span data-ru="Разработано для Казахстана"
-              data-kz="Қазақстан үшін жасалған">Разработано для Казахстана</span></span>
-        </div>
-        <h1 class="hero-title">
-          <span class="line-1" data-ru="Правовая защита" data-kz="Заңды қорғау">Правовая защита</span><br />
-          <span class="line-2" data-ru="на уровне ИИ" data-kz="ЖИ деңгейінде">на уровне ИИ</span>
-        </h1>
-        <p class="hero-subtitle"
-          data-ru="Специализированный ИИ, обученный на всей базе законодательства Казахстана. Работает на казахском и русском — 24/7, без юридических расходов."
-          data-kz="Қазақстан заңнамасының толық дерекқорында оқытылған мамандандырылған жасанды интеллект. Қазақ және орыс тілдерінде — тәулік бойы, шығынсыз.">
-          Специализированный ИИ, обученный на всей базе законодательства Казахстана. Работает на казахском и русском —
-          24/7, без юридических расходов.
-        </p>
-        <div class="hero-ctas">
-          <a href="#demo" class="btn btn-primary btn-lg" data-ru="🏢 Для бизнеса" data-kz="🏢 Бизнес үшін">🏢 Для
-            бизнеса</a>
-          <a href="#demo" class="btn btn-secondary btn-lg" data-ru="👤 Для граждан" data-kz="👤 Азаматтар үшін">👤 Для
-            граждан</a>
-        </div>
-        <div class="hero-trust">
-          <div class="trust-item"><span class="icon">✓</span><span data-ru="Кодекс РК" data-kz="ҚР Кодексі">Кодекс
-              РК</span></div>
-          <div class="trust-item"><span class="icon">✓</span><span data-ru="База Адилет" data-kz="Әділет базасы">База
-              Адилет</span></div>
-          <div class="trust-item"><span class="icon">✓</span><span data-ru="GDPR-совместимо"
-              data-kz="GDPR сәйкес">GDPR-совместимо</span></div>
-          <div class="trust-item"><span class="icon">✓</span><span data-ru="Реальное время"
-              data-kz="Нақты уақыт">Реальное время</span></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- STATS -->
-  <section id="stats">
-    <div class="container">
-      <div class="stats-grid">
-        <div class="stat-item reveal">
-          <div class="stat-number" data-target="12000" id="stat1">0</div>
-          <div class="stat-label" data-ru="Законодательных актов проиндексировано"
-            data-kz="Заңнамалық актілер индекстелді">Законодательных актов проиндексировано</div>
-        </div>
-        <div class="stat-item reveal">
-          <div class="stat-number">2</div>
-          <div class="stat-label" data-ru="Государственных языка" data-kz="Мемлекеттік тіл">Государственных языка</div>
-        </div>
-        <div class="stat-item reveal">
-          <div class="stat-number" data-target="50" id="stat3">0</div>
-          <div class="stat-label" data-ru="Отраслей права охвачено" data-kz="Заң саласы қамтылған">Отраслей права
-            охвачено</div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- MODULES -->
-  <section id="modules">
-    <div class="container">
-      <div class="modules-header reveal">
-        <div class="badge" style="margin-bottom:1rem;" data-ru="Функциональные модули"
-          data-kz="Функционалдық модульдер">Функциональные модули</div>
-        <h2 class="section-title" data-ru="Два щита. Одна платформа." data-kz="Екі қалқан. Бір платформа.">Два щита.
-          Одна платформа.</h2>
-        <p class="section-subtitle"
-          data-ru="Zanger AI объединяет защиту бизнеса и гражданских прав в единую интеллектуальную систему."
-          data-kz="Zanger AI бизнес пен азаматтық құқықты бір системаға біріктіреді.">Zanger AI объединяет защиту
-          бизнеса и гражданских прав в единую интеллектуальную систему.</p>
-      </div>
-
-      <div class="modules-tabs">
-        <button class="module-tab active" data-panel="b2b" id="tabB2B" data-ru="🏢 Защита бизнеса (B2B)"
-          data-kz="🏢 Бизнесті қорғау (B2B)">🏢 Защита бизнеса (B2B)</button>
-        <button class="module-tab" data-panel="b2c" id="tabB2C" data-ru="👤 Права граждан (B2C)"
-          data-kz="👤 Азаматтар құқығы (B2C)">👤 Права граждан (B2C)</button>
-      </div>
-
-      <!-- B2B -->
-      <div class="module-panel active" id="panel-b2b">
-        <div class="glass-card module-hero-card reveal">
-          <span class="card-tag tag-teal" data-ru="B2B · Предпринимательский щит" data-kz="B2B · Кәсіпкерлік қалқан">B2B
-            · Предпринимательский щит</span>
-          <h3 class="card-big-title" data-ru="Ваш цифровой советник по соблюдению законодательства"
-            data-kz="Заңнаманы сақтауды қамтамасыз ететін цифрлық кеңесшінің">Ваш цифровой советник по соблюдению
-            законодательства</h3>
-          <p class="card-desc"
-            data-ru="Разработан для МСБ в рамках программы «Цифровой Казахстан». Автоматически отслеживает актуальность налоговых режимов, лицензионных требований и трудового законодательства."
-            data-kz="ШОБ үшін жасалған. Салықтық режимдер, лицензиялық талаптар мен еңбек заңнамасының өзектілігін автоматты бақылайды.">
-            Разработан для МСБ в рамках «Цифровой Казахстан». Отслеживает налоговые режимы, лицензии и трудовое
-            законодательство.</p>
-          <ul class="feature-list">
-            <li data-ru="Проверка налогового режима (УД vs ОУР) по ОКЭД"
-              data-kz="Салықтық режимді тексеру (ЖД vs ЖСЕ) ЭҚЖЖ бойынша">Проверка налогового режима (УД vs ОУР) по ОКЭД
-            </li>
-            <li data-ru="Анализ договоров — нарушения Гражданского кодекса РК"
-              data-kz="Шарттарды талдау — ҚР АК бұзушылықтары">Анализ договоров — нарушения Гражданского кодекса РК</li>
-            <li data-ru="Проактивные уведомления об изменениях в НПА"
-              data-kz="НҚА өзгерістері туралы белсенді хабарламалар">Проактивные уведомления об изменениях в НПА</li>
-            <li data-ru="Лицензирование и разрешения по Предпринимательскому кодексу"
-              data-kz="Кәсіпкерлік кодекс бойынша лицензиялау мен рұқсаттар">Лицензирование и разрешения по
-              Предпринимательскому кодексу</li>
-          </ul>
-          <div class="module-hero-highlight">💡 <span
-              data-ru="Предотвращает штрафы за непреднамеренное несоблюдение требований — в среднем 15 МРП за нарушение."
-              data-kz="Кездейсоқ бұзушылықтар үшін айыппұлдардың алдын алады — орта есеппен 15 АЕК.">Предотвращает
-              штрафы за непреднамеренное несоблюдение требований — в среднем 15 МРП за нарушение.</span></div>
-        </div>
-        <div class="glass-card reveal">
-          <div class="card-icon teal">🔍</div>
-          <h4 class="card-title" data-ru="Налоговый анализатор" data-kz="Салық талдаушысы">Налоговый анализатор</h4>
-          <p class="card-desc" data-ru="Мгновенно определяет оптимальный режим по типу ТОО/ИП, доходу и ОКЭД."
-            data-kz="ЖШС/ЖК түрі, кіріс пен ЭҚЖЖ бойынша тез режим анықтайды.">Мгновенно определяет оптимальный режим по
-            типу ТОО/ИП, доходу и ОКЭД.</p>
-          <ul class="feature-list">
-            <li data-ru="Упрощённая декларация — пороги и ставки"
-              data-kz="Жеңілдетілген декларация — шектер мен мөлшерлемелер">Упрощённая декларация — пороги и ставки</li>
-            <li data-ru="Сравнение ОУР и специальных режимов" data-kz="ЖСЕ мен арнайы режимдерді салыстыру">Сравнение
-              ОУР и специальных режимов</li>
-            <li data-ru="Расчёт НДС по порогу 20 000 МРП" data-kz="ҚҚС есебін 20 000 АЕК бойынша есептеу">Расчёт НДС по
-              порогу 20 000 МРП</li>
-          </ul>
-        </div>
-        <div class="glass-card reveal">
-          <div class="card-icon teal">📄</div>
-          <h4 class="card-title" data-ru="Проверка договоров" data-kz="Шарттарды тексеру">Проверка договоров</h4>
-          <p class="card-desc" data-ru="Сканирует аренду, поставки и трудовые договора на риски по нормам ГК РК."
-            data-kz="ҚР АК нормалары бойынша жалдау, жеткізу шарттарын тексереді.">Сканирует аренду, поставки и трудовые
-            договора на риски по нормам ГК РК.</p>
-          <ul class="feature-list">
-            <li data-ru="Выявление пунктов с завышенной неустойкой"
-              data-kz="Шамадан тыс тұрақсыздық айыбы бар тармақтарды анықтау">Выявление пунктов с завышенной неустойкой
-            </li>
-            <li data-ru="Проверка соответствия ст. 178 ГК (сроки давности)" data-kz="АК 178-бабына сәйкестікті тексеру">
-              Проверка соответствия ст. 178 ГК (сроки давности)</li>
-            <li data-ru="Подсветка незаконных ограничительных условий" data-kz="Заңсыз шектеу шарттарын ерекшелеу">
-              Подсветка незаконных ограничительных условий</li>
-          </ul>
-        </div>
-      </div>
-
-      <!-- B2C -->
-      <div class="module-panel" id="panel-b2c">
-        <div class="glass-card gold module-hero-card reveal">
-          <span class="card-tag tag-gold" data-ru="B2C · Навигатор гражданских прав"
-            data-kz="B2C · Азаматтық құқықтар навигаторы">B2C · Навигатор гражданских прав</span>
-          <h3 class="card-big-title" data-ru="Правовая поддержка для каждого гражданина"
-            data-kz="Әрбір азамат үшін заңдық қолдау">Правовая поддержка для каждого гражданина</h3>
-          <p class="card-desc"
-            data-ru="Описывайте ситуацию обычным языком — ИИ определит применимое законодательство, укажет статьи и подготовит заявление или иск."
-            data-kz="Жағдайыңызды қарапайым тілде сипаттаңыз — ЖИ заңнаманы анықтайды, баптарды көрсетеді және шағым дайындайды.">
-            Описывайте ситуацию обычным языком — ИИ определит применимое законодательство и подготовит документ.</p>
-          <ul class="feature-list">
-            <li data-ru="Правовой триаж: семейное, жилищное, трудовое право"
-              data-kz="Заңдық сорттау: отбасылық, тұрғын үй, еңбек құқығы">Правовой триаж: семейное, жилищное, трудовое
-              право</li>
-            <li data-ru="Генерация жалоб и исков в госорганы" data-kz="Мемлекеттік органдарға шағымдар мен талаптар">
-              Генерация жалоб и исков в госорганы</li>
-            <li data-ru="Защита потребителей по Закону РК о ЗПП" data-kz="ҚР ТҚЗ заңы бойынша тұтынушыларды қорғау">
-              Защита потребителей по Закону РК о ЗПП</li>
-            <li data-ru="Семейный кодекс: алименты, раздел имущества" data-kz="Отбасы кодексі: алимент, мүлікті бөлу">
-              Семейный кодекс: алименты, раздел имущества</li>
-          </ul>
-          <div class="module-hero-highlight gold">💡 <span
-              data-ru="Устраняет информационную асимметрию: граждане получают знания юриста бесплатно и мгновенно."
-              data-kz="Ақпараттық асимметрияны жояды: азаматтар заңгер білімін тегін алады.">Устраняет информационную
-              асимметрию: граждане получают знания юриста бесплатно и мгновенно.</span></div>
-        </div>
-        <div class="glass-card gold reveal">
-          <div class="card-icon gold">⚖️</div>
-          <h4 class="card-title" data-ru="Правовая триажная система" data-kz="Заңдық сорттау жүйесі">Правовая триажная
-            система</h4>
-          <p class="card-desc" data-ru="ИИ слушает вашу ситуацию и применяет статьи Кодексов РК."
-            data-kz="ЖИ жағдайыңызды тыңдайды және ҚР Кодекстерін қолданады.">ИИ слушает вашу ситуацию и применяет
-            статьи Кодексов РК.</p>
-          <ul class="feature-list">
-            <li data-ru="Трудовой кодекс — незаконное увольнение, зарплата"
-              data-kz="Еңбек кодексі — заңсыз жұмыстан шығару, еңбекақы">Трудовой кодекс — незаконное увольнение,
-              зарплата</li>
-            <li data-ru="Жилищный кодекс — выселение, аренда, КСК" data-kz="Тұрғын үй кодексі — шығарып жіберу, жалдау">
-              Жилищный кодекс — выселение, аренда, КСК</li>
-            <li data-ru="Закон о браке и семье — алименты, развод"
-              data-kz="Неке және отбасы туралы заң — алимент, ажырасу">Закон о браке и семье — алименты, развод</li>
-          </ul>
-        </div>
-        <div class="glass-card gold reveal">
-          <div class="card-icon gold">📝</div>
-          <h4 class="card-title" data-ru="Генератор документов" data-kz="Құжаттар генераторы">Генератор документов</h4>
-          <p class="card-desc" data-ru="Составляет юридически грамотные жалобы и ходатайства по требованиям судов РК."
-            data-kz="ҚР соттарының талаптарына сай заңдық сауатты шағымдар мен өтінішхаттар жасайды.">Составляет
-            юридически грамотные жалобы и ходатайства по требованиям судов РК.</p>
-          <ul class="feature-list">
-            <li data-ru="Жалоба в Комитет по защите прав потребителей"
-              data-kz="Тұтынушылар құқықтарын қорғау комитетіне шағым">Жалоба в Комитет по защите прав потребителей</li>
-            <li data-ru="Исковое заявление в суд первой инстанции" data-kz="Бірінші сатыдағы сотқа арыз">Исковое
-              заявление в суд первой инстанции</li>
-            <li data-ru="Претензионное письмо контрагенту" data-kz="Контрагентке талап хаты">Претензионное письмо
-              контрагенту</li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- HOW IT WORKS -->
-  <section id="how">
-    <div class="container">
-      <div class="how-header reveal">
-        <div class="badge" style="margin-bottom:1rem;" data-ru="Как это работает" data-kz="Бұл қалай жұмыс істейді">Как
-          это работает</div>
-        <h2 class="section-title" data-ru="Три шага до правовой ясности" data-kz="Заңдық айқындыққа үш қадам">Три шага
-          до правовой ясности</h2>
-        <p class="section-subtitle"
-          data-ru="Zanger AI анализирует ситуацию, находит релевантное право и выдаёт готовое решение."
-          data-kz="Zanger AI жағдайды талдайды, тиісті заңды тауып, дайын шешім береді.">Zanger AI анализирует ситуацию,
-          находит релевантное право и выдаёт готовое решение.</p>
-      </div>
-      <div class="steps-grid">
-        <div class="step-card glass-card reveal">
-          <div class="step-number">1</div>
-          <div class="step-title" data-ru="Опишите ситуацию" data-kz="Жағдайды сипаттаңыз">Опишите ситуацию</div>
-          <p class="step-desc"
-            data-ru="Введите вопрос на казахском или русском языке — простыми словами, без юридических терминов."
-            data-kz="Сұрақты қазақ немесе орыс тілінде енгізіңіз — заңдық терминсіз, қарапайым тілде.">Введите вопрос на
-            казахском или русском — простыми словами, без юридических терминов.</p>
-        </div>
-        <div class="step-card glass-card reveal">
-          <div class="step-number"
-            style="background:linear-gradient(135deg,var(--clr-gold),#b88c2e);box-shadow:0 0 0 8px rgba(212,168,67,0.12)">
-            2</div>
-          <div class="step-title" data-ru="ИИ изучает право" data-kz="ЖИ заңды зерттейді">ИИ изучает право</div>
-          <p class="step-desc"
-            data-ru="Модель анализирует иерархию законодательства РК и выявляет применимые кодексы с учётом последних поправок."
-            data-kz="Үлгі ҚР заңнамасының иерархиясын талдап, соңғы түзетулерді ескере отырып кодекстерді анықтайды.">
-            Модель анализирует иерархию законодательства РК и выявляет применимые кодексы.</p>
-        </div>
-        <div class="step-card glass-card reveal">
-          <div class="step-number">3</div>
-          <div class="step-title" data-ru="Получите решение" data-kz="Шешімді алыңыз">Получите решение</div>
-          <p class="step-desc"
-            data-ru="Получите чёткий план действий, ссылки на статьи закона и, при необходимости, готовый документ."
-            data-kz="Нақты іс-қимыл жоспарын, заң баптарына сілтемелерді және дайын құжатты алыңыз.">Получите чёткий
-            план действий, ссылки на статьи и готовый документ.</p>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- DEMO -->
-  <section id="demo">
-    <div class="container">
-      <div class="demo-wrapper">
-        <div class="demo-info reveal">
-          <div class="badge" style="margin-bottom:1rem;" data-ru="Живое демо" data-kz="Тікелей демо">Живое демо</div>
-          <h2 class="section-title" data-ru="Спросите Zanger AI прямо сейчас" data-kz="Дәл қазір Zanger AI-дан сұраңыз">
-            Спросите Zanger AI прямо сейчас</h2>
-          <p class="section-subtitle" style="margin-bottom:1.8rem;"
-            data-ru="Выберите сценарий или введите свой вопрос. ИИ ответит со ссылками на статьи законодательства РК."
-            data-kz="Сценарийді таңдаңыз немесе сұрақ енгізіңіз. ЖИ ҚР заңнамасының баптарымен жауап береді.">Выберите
-            сценарий или введите свой вопрос. ИИ ответит со ссылками на статьи законодательства РК.</p>
-          <div class="demo-scenarios" id="demoScenarios">
-            <button class="scenario-btn active" data-scenario="fired"><span class="s-icon">💼</span><span
-                data-ru="Меня уволили без предупреждения" data-kz="Мені ескертусіз жұмыстан шығарды">Меня уволили без
-                предупреждения</span></button>
-            <button class="scenario-btn" data-scenario="tax"><span class="s-icon">🧾</span><span
-                data-ru="Какой налоговый режим выбрать для ТОО?"
-                data-kz="ЖШС үшін қандай салықтық режим таңдау керек?">Какой налоговый режим выбрать для
-                ТОО?</span></button>
-            <button class="scenario-btn" data-scenario="rent"><span class="s-icon">🏠</span><span
-                data-ru="Арендодатель не возвращает депозит" data-kz="Жалға беруші депозитті қайтармайды">Арендодатель
-                не возвращает депозит</span></button>
-            <button class="scenario-btn" data-scenario="consumer"><span class="s-icon">🛒</span><span
-                data-ru="Вернуть некачественный товар" data-kz="Сапасыз тауарды қайтару">Вернуть некачественный
-                товар</span></button>
-          </div>
-        </div>
-        <div class="chat-window reveal">
-          <div class="chat-header">
-            <div class="chat-avatar">⚖️</div>
-            <div class="chat-header-info">
-              <div class="chat-name">Zanger AI</div>
-              <div class="chat-status" data-ru="Онлайн · Gemini AI активен" data-kz="Желіде · Gemini AI белсенді">Онлайн
-                · Gemini AI активен</div>
+  <main>
+    
+    <section id="tab-chat" class="tab-pane active">
+      <div class="container">
+        <div class="demo-wrapper">
+          <div class="demo-info reveal">
+            <h2 class="section-title" data-ru="Ваш личный ИИ-юрист" data-kz="Сіздің жеке ЖИ-заңгеріңіз">Ваш личный ИИ-юрист</h2>
+            <p class="section-subtitle" style="margin-bottom:1.8rem;"
+              data-ru="Выберите быстрый сценарий или опишите свою проблему подробно. Zetef анализирует законы РК в реальном времени."
+              data-kz="Сценарийді таңдаңыз немесе мәселеңізді толық сипаттаңыз. Zetef ҚР заңдарын нақты уақытта талдайды.">
+              Выберите быстрый сценарий или опишите свою проблему подробно. Zetef анализирует законы РК в реальном времени.
+            </p>
+            <div class="demo-scenarios" id="demoScenarios">
+              <button class="scenario-btn active" data-scenario="fired"><span class="s-icon">💼</span><span data-ru="Меня уволили без предупреждения">Меня уволили без предупреждения</span></button>
+              <button class="scenario-btn" data-scenario="tax"><span class="s-icon">🧾</span><span data-ru="Какой налог выбрать для ТОО?">Какой налог выбрать для ТОО?</span></button>
+              <button class="scenario-btn" data-scenario="rent"><span class="s-icon">🏠</span><span data-ru="Не возвращают депозит за квартиру">Не возвращают депозит за квартиру</span></button>
+              <button class="scenario-btn" data-scenario="consumer"><span class="s-icon">🛒</span><span data-ru="Как вернуть некачественный товар?">Как вернуть некачественный товар?</span></button>
             </div>
           </div>
-          <div class="chat-messages" id="chatMessages">
-            <div class="msg ai">
-              <div class="msg-avatar">⚖️</div>
-              <div>
-                <div class="msg-bubble" id="welcomeMsg"
-                  data-ru="Здравствуйте! Я Zanger AI — правовой навигатор казахстанского законодательства. Выберите сценарий слева или задайте свой вопрос."
-                  data-kz="Сәлеметсіз бе! Мен Zanger AI — Қазақстан заңнамасының навигаторымын. Сол жақтан сценарий таңдаңыз.">
-                  Здравствуйте! Я Zanger AI — правовой навигатор казахстанского законодательства. Выберите сценарий
-                  слева или задайте свой вопрос.</div>
-                <div class="msg-meta">Zanger AI · сейчас</div>
+          
+          <div class="chat-window reveal" style="width: 100%; max-width: 600px;">
+            <div class="chat-header">
+              <div class="chat-avatar">⚖️</div>
+              <div class="chat-header-info">
+                <div class="chat-name">Zetef (ZF)</div>
+                <div class="chat-status" data-ru="Онлайн · Законы РК 2024" data-kz="Желіде · ҚР Заңдары">Онлайн · Законы РК 2024</div>
               </div>
             </div>
-          </div>
-          <div class="chat-input-area">
-            <input type="text" class="chat-input" id="chatInput" placeholder="Опишите вашу ситуацию..." />
-            <button class="chat-send" id="chatSend">➤</button>
+            <div class="chat-messages" id="chatMessages">
+              <div class="msg ai">
+                <div class="msg-avatar">⚖️</div>
+                <div>
+                  <div class="msg-bubble" id="welcomeMsg" data-ru="Здравствуйте. Я Zetef. Опишите вашу правовую ситуацию, и я предоставлю анализ согласно законодательству Республики Казахстан.">
+                    Здравствуйте. Я Zetef. Опишите вашу правовую ситуацию, и я предоставлю анализ согласно законодательству Республики Казахстан.
+                  </div>
+                  <div class="msg-meta">Zetef · сейчас</div>
+                </div>
+              </div>
+            </div>
+            <div class="chat-input-area">
+              <input type="text" class="chat-input" id="chatInput" placeholder="Опишите вашу ситуацию..." />
+              <button class="chat-send" id="chatSend">➤</button>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <!-- USE CASES -->
-  <section id="usecases">
-    <div class="container">
-      <div class="usecases-header reveal">
-        <div class="badge" style="margin-bottom:1rem;" data-ru="Реальные истории" data-kz="Нақты оқиғалар">Реальные
-          истории</div>
-        <h2 class="section-title" data-ru="Кто использует Zanger AI" data-kz="Zanger AI-ды кімдер пайдаланады">Кто
-          использует Zanger AI</h2>
-        <p class="section-subtitle"
-          data-ru="От малого предпринимателя в Алматы до гражданина в Шымкенте — платформа решает реальные правовые задачи."
-          data-kz="Алматыдағы кәсіпкерден Шымкенттегі азаматқа дейін — платформа нақты заңдық мәселелерді шешеді.">От
-          малого предпринимателя в Алматы до гражданина в Шымкенте — платформа решает реальные правовые задачи.</p>
-      </div>
-      <div class="personas-grid">
-        <div class="glass-card persona-card reveal">
-          <div class="persona-avatar" style="background:rgba(0,198,184,0.1)">👨‍💼</div>
-          <div class="persona-name" data-ru="Алибек Д." data-kz="Әлібек Д.">Алибек Д.</div>
-          <div class="persona-role" data-ru="Владелец ТОО, г. Алматы" data-kz="ЖШС иесі, Алматы">Владелец ТОО, г. Алматы
+    <section id="tab-services" class="tab-pane">
+      <div class="container">
+        <div class="modules-header text-center reveal">
+          <h2 class="section-title">Наши Услуги и Модули</h2>
+          <p class="section-subtitle">Zanger AI объединяет защиту бизнеса и гражданских прав в единую интеллектуальную систему.</p>
+        </div>
+        <div class="modules-tabs" style="margin-top: 30px;">
+          <div class="glass-card gold module-hero-card">
+            <h3 class="card-big-title">Для Граждан (B2C)</h3>
+            <p class="card-desc">Правовой триаж: семейное, жилищное, трудовое право. Генерация жалоб и исков в госорганы. Защита потребителей.</p>
           </div>
-          <p class="persona-quote"
-            data-ru="Zanger AI проверил наш договор аренды и нашёл три пункта, нарушающих ГК РК. Мы сэкономили потенциально 2 млн тенге."
-            data-kz="Zanger AI жалдау шартымызды тексеріп, ҚР АК-ны бұзатын үш тармақты тапты. 2 млн теңге үнемдедік.">
-            Zanger AI проверил наш договор аренды и нашёл три пункта, нарушающих ГК РК. Мы сэкономили 2 млн тенге.</p>
-          <div class="persona-outcome"><span class="outcome-icon">✅</span><span
-              data-ru="Договор приведён в соответствие с ГК РК" data-kz="Шарт ҚР АК-на сәйкес келтірілді">Договор
-              приведён в соответствие с ГК РК</span></div>
-        </div>
-        <div class="glass-card persona-card reveal">
-          <div class="persona-avatar" style="background:rgba(212,168,67,0.1)">👩</div>
-          <div class="persona-name" data-ru="Гүлнар С." data-kz="Гүлнар С.">Гүлнар С.</div>
-          <div class="persona-role" data-ru="Учитель, г. Шымкент" data-kz="Мұғалім, Шымкент">Учитель, г. Шымкент</div>
-          <p class="persona-quote"
-            data-ru="Меня уволили незаконно. Zanger сослался на ст. 55 Трудового кодекса и сгенерировал жалобу в инспекцию труда за 30 секунд."
-            data-kz="Мені заңсыз жұмыстан шығарды. Zanger ТК 55-бабына сілтеме жасап, 30 секундта еңбек инспекциясына шағым жасады.">
-            Меня уволили незаконно. Zanger сослался на ст. 55 ТК РК и сгенерировал жалобу за 30 секунд.</p>
-          <div class="persona-outcome"><span class="outcome-icon">✅</span><span
-              data-ru="Восстановлена на работе через 3 недели"
-              data-kz="3 аптадан кейін жұмысқа қайтарылды">Восстановлена на работе через 3 недели</span></div>
-        </div>
-        <div class="glass-card persona-card reveal">
-          <div class="persona-avatar" style="background:rgba(0,198,184,0.1)">👨</div>
-          <div class="persona-name" data-ru="Нурлан М." data-kz="Нұрлан М.">Нурлан М.</div>
-          <div class="persona-role" data-ru="ИП, г. Астана" data-kz="ЖК, Астана">ИП, г. Астана</div>
-          <p class="persona-quote"
-            data-ru="Не знал, нужна ли мне регистрация по НДС. Zanger AI сразу объяснил порог в 20 000 МРП и оформил напоминание на дату отчёта."
-            data-kz="ҚҚС тіркелу керектігін білмедім. Zanger AI 20 000 АЕК шегін бірден түсіндіріп, еске салғыш рәсімдеді.">
-            Не знал, нужна ли регистрация по НДС. Zanger AI объяснил порог 20 000 МРП и напомнил о сроках.</p>
-          <div class="persona-outcome"><span class="outcome-icon">✅</span><span
-              data-ru="Избежал штрафа за несвоевременную регистрацию"
-              data-kz="Уақытылы тіркелмегені үшін айыппұлдан аулақ болды">Избежал штрафа за несвоевременную
-              регистрацию</span></div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- CTA BANNER -->
-  <section id="cta-banner">
-    <div class="container">
-      <div class="reveal">
-        <h2 class="cta-banner-title" data-ru="Готовы получить доступ к законодательству РК?"
-          data-kz="ҚР заңнамасына қол жеткізуге дайынсыз ба?">Готовы получить доступ к законодательству РК?</h2>
-        <p class="cta-banner-sub" data-ru="Присоединяйтесь к ранней программе доступа. Бесплатно для граждан."
-          data-kz="Ерте қол жеткізу бағдарламасына қосылыңыз. Азаматтар үшін тегін.">Присоединяйтесь к ранней программе
-          доступа. Бесплатно для граждан.</p>
-        <div class="cta-btn-group">
-          <a href="#demo" class="btn btn-primary btn-lg" data-ru="🚀 Начать бесплатно" data-kz="🚀 Тегін бастау">🚀
-            Начать бесплатно</a>
-          <a href="#modules" class="btn btn-gold btn-lg" data-ru="🏢 Запросить демо для бизнеса"
-            data-kz="🏢 Бизнес үшін демо сұрату">🏢 Запросить демо для бизнеса</a>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <!-- FOOTER -->
-  <footer id="footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-brand">
-          <div class="nav-logo" style="margin-bottom:0.8rem;"><span class="logo-icon">⚖️</span><span>Zanger
-              <em>AI</em></span></div>
-          <p class="footer-tagline"
-            data-ru="Интеллектуальный правовой навигатор Казахстана. Обученный на Адилете, работающий для вас."
-            data-kz="Қазақстанның интеллектуалды заңдық навигаторы. Әділетте оқытылған, сіздің үшін жұмыс істейтін.">
-            Интеллектуальный правовой навигатор Казахстана. Обученный на Адилете, работающий для вас.</p>
-          <div class="footer-social">
-            <div class="social-btn">✈</div>
-            <div class="social-btn">◈</div>
-            <div class="social-btn">in</div>
+          <div class="glass-card module-hero-card" style="margin-top: 20px;">
+            <h3 class="card-big-title">Для Бизнеса (B2B)</h3>
+            <p class="card-desc">Анализ договоров, проверка налогового режима по ОКЭД, лицензирование и разрешения.</p>
           </div>
         </div>
-        <div class="footer-col">
-          <h4 data-ru="Продукт" data-kz="Өнім">Продукт</h4>
-          <ul>
-            <li><a href="#modules" data-ru="Модули" data-kz="Модульдер">Модули</a></li>
-            <li><a href="#how" data-ru="Как работает" data-kz="Қалай жұмыс істейді">Как работает</a></li>
-            <li><a href="#demo" data-ru="Демо" data-kz="Демо">Демо</a></li>
-            <li><a href="#" data-ru="API для бизнеса" data-kz="Бизнес API">API для бизнеса</a></li>
-          </ul>
+      </div>
+    </section>
+
+    <section id="tab-reviews" class="tab-pane">
+      <div class="container">
+        <div class="usecases-header text-center reveal">
+          <h2 class="section-title">Реальные истории</h2>
+          <p class="section-subtitle">Кто и как уже использует Zanger AI для решения своих проблем.</p>
         </div>
-        <div class="footer-col">
-          <h4 data-ru="Законодательство" data-kz="Заңнама">Законодательство</h4>
-          <ul>
-            <li><a href="#" data-ru="Гражданский кодекс" data-kz="Азаматтық кодекс">Гражданский кодекс</a></li>
-            <li><a href="#" data-ru="Трудовой кодекс" data-kz="Еңбек кодексі">Трудовой кодекс</a></li>
-            <li><a href="#" data-ru="Налоговый кодекс" data-kz="Салық кодексі">Налоговый кодекс</a></li>
-            <li><a href="#" data-ru="Предпринимательский кодекс" data-kz="Кәсіпкерлік кодекс">Предпринимательский
-                кодекс</a></li>
-          </ul>
-        </div>
-        <div class="footer-col">
-          <h4 data-ru="Компания" data-kz="Компания">Компания</h4>
-          <ul>
-            <li><a href="#" data-ru="О нас" data-kz="Біз туралы">О нас</a></li>
-            <li><a href="#" data-ru="Политика конфиденциальности" data-kz="Құпиялылық саясаты">Политика
-                конфиденциальности</a></li>
-            <li><a href="#" data-ru="Условия использования" data-kz="Пайдалану шарттары">Условия использования</a></li>
-            <li><a href="#" data-ru="Контакты" data-kz="Байланыс">Контакты</a></li>
-          </ul>
+        <div class="personas-grid" style="margin-top: 30px;">
+          <div class="glass-card persona-card">
+            <div class="persona-avatar">👨‍💼</div>
+            <div class="persona-name">Алибек Д.</div>
+            <div class="persona-role">Владелец ТОО</div>
+            <p class="persona-quote">"Zetef проверил наш договор аренды и нашёл три пункта, нарушающих ГК РК. Мы сэкономили 2 млн тенге."</p>
+          </div>
+          <div class="glass-card persona-card">
+            <div class="persona-avatar">👩</div>
+            <div class="persona-name">Гүлнар С.</div>
+            <div class="persona-role">Учитель</div>
+            <p class="persona-quote">"Меня уволили незаконно. Zetef сослался на ст. 55 ТК РК и сгенерировал жалобу за 30 секунд. Я восстановлена."</p>
+          </div>
         </div>
       </div>
-      <div class="footer-bottom">
-        <div class="footer-copy">© 2026 Zanger AI. Алматы, Казахстан.</div>
-        <div class="footer-disclaimer"
-          data-ru="⚠ Zanger AI предоставляет информационно-правовую поддержку. Не является юридической консультацией. Для сложных дел обратитесь к лицензированному юристу."
-          data-kz="⚠ Zanger AI ақпараттық-заңдық қолдау көрсетеді. Заңгерлік кеңес болып табылмайды. Күрделі мәселелер үшін лицензиялы заңгерге жүгініңіз.">
-          ⚠ Zanger AI предоставляет информационно-правовую поддержку. Не является юридической консультацией.</div>
+    </section>
+
+    <section id="tab-auth" class="tab-pane">
+      <div class="container">
+        <div class="auth-container reveal">
+          <h2>Личный кабинет</h2>
+          <div class="auth-form">
+            <input type="email" placeholder="Ваш Email (например: name@mail.kz)" required>
+            <input type="password" placeholder="Пароль" required>
+            <button onclick="alert('Функция регистрации будет подключена позже!')">Войти / Зарегистрироваться</button>
+            <p style="text-align: center; margin-top: 15px; font-size: 0.9rem; color: #64748b;">
+              Сохраняйте историю чатов и документы в безопасном облаке.
+            </p>
+          </div>
+        </div>
       </div>
-    </div>
-  </footer>
+    </section>
+
+  </main>
+
+  <script>
+    function switchTab(tabId) {
+      // Скрываем все вкладки
+      document.querySelectorAll('.tab-pane').forEach(tab => tab.classList.remove('active'));
+      // Убираем активный класс у всех кнопок меню
+      document.querySelectorAll('.tab-link').forEach(link => link.classList.remove('active'));
+      
+      // Показываем нужную вкладку
+      document.getElementById(tabId).classList.add('active');
+      // Подсвечиваем нажатую кнопку
+      event.target.classList.add('active');
+    }
+  </script>
 
   <script src="app.js"></script>
 </body>
-
 </html>
