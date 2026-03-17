@@ -1,5 +1,5 @@
 /* ============================================================
-   ZANGER AI — app.js
+   ZANGER AI — app.js (ИСПРАВЛЕННАЯ И УЛУЧШЕННАЯ ВЕРСИЯ)
    Language toggle, scroll animations, stats counter, chat + Gemini AI
 ============================================================ */
 
@@ -30,117 +30,31 @@ const chatStatusText = {
   kz: 'Желіде · Кеңесуге дайын'
 };
 
-// Mock AI scenario responses
+// Сценарии
 const scenarios = {
   fired: {
     user: {
       ru: 'Меня уволили без предупреждения. Это законно?',
       kz: 'Мені ескертусіз жұмыстан шығарды. Бұл заңды ма?'
-    },
-    ai: {
-      ru: `Согласно <strong>ст. 52 Трудового кодекса РК</strong>, работодатель обязан предупредить работника об увольнении <strong>за 1 месяц</strong> по инициативе работодателя. Увольнение без предупреждения является нарушением.
-
-📌 <strong>Ваши права:</strong>
-• Требовать восстановления на работе (ст. 181 ТК)
-• Получить компенсацию за вынужденный прогул
-• Обратиться в инспекцию труда в течение <strong>3 месяцев</strong>
-
-Я могу сгенерировать жалобу в Государственную инспекцию труда прямо сейчас.`,
-      kz: `<strong>ҚР Еңбек кодексінің 52-бабына</strong> сәйкес, жұмыс беруші жұмысшыны жұмыстан шығармас бұрын <strong>1 ай бұрын</strong> ескертуі тиіс. Ескертусіз жұмыстан шығару заң бұзушылық болып табылады.
-
-📌 <strong>Сіздің құқықтарыңыз:</strong>
-• Жұмысқа қалпына келтіруді талап ету (ТК 181-бабы)
-• Мәжбүрлі босқа уақыт үшін өтемақы алу
-• <strong>3 ай</strong> ішінде еңбек инспекциясына жүгіну
-
-Мемлекеттік еңбек инспекциясына шағымды дәл қазір жасай аламын.`
-    },
-    cite: 'ТК РК ст. 52, 181'
+    }
   },
   tax: {
     user: {
       ru: 'Какой налоговый режим выбрать для моего ТОО?',
       kz: 'ЖШС-ым үшін қандай салықтық режим таңдау керек?'
-    },
-    ai: {
-      ru: `На основе <strong>Налогового кодекса РК</strong>, выбор режима зависит от двух ключевых факторов:
-
-🔹 <strong>Упрощённая декларация</strong> (ст. 683 НК): если доход до <strong>24 038 МРП/год</strong> и не более 30 сотрудников
-🔹 <strong>Общеустановленный режим</strong>: при превышении порогов или работе с НДС-плательщиками
-
-📌 <strong>Порог регистрации в качестве плательщика НДС:</strong> <strong>20 000 МРП</strong> за 12 месяцев (ст. 82 НК РК).
-
-Укажите ваш ожидаемый годовой доход — дам точную рекомендацию.`,
-      kz: `<strong>ҚР Салық кодексіне</strong> сай, режим таңдау екі негізгі факторға байланысты:
-
-🔹 <strong>Жеңілдетілген декларация</strong> (СК 683-бабы): жылдық кіріс <strong>24 038 АЕК</strong>-ке дейін және 30-дан аз қызметкер болса
-🔹 <strong>Жалпы белгіленген режим</strong>: шектерден асып кетсе немесе ҚҚС төлеушілермен жұмыс істесеңіз
-
-📌 <strong>ҚҚС төлеуші ретінде тіркелу шегі:</strong> 12 айда <strong>20 000 АЕК</strong> (ҚР СК 82-бабы).
-
-Күтілетін жылдық кірісіңізді айтыңыз — нақты ұсыныс беремін.`
-    },
-    cite: 'НК РК ст. 82, 683'
+    }
   },
   rent: {
     user: {
       ru: 'Арендодатель не возвращает мой депозит. Что делать?',
       kz: 'Жалға беруші депозитімді қайтармайды. Не істеу керек?'
-    },
-    ai: {
-      ru: `По <strong>ст. 556 Гражданского кодекса РК</strong>, арендодатель обязан вернуть залоговый депозит в течение <strong>3 рабочих дней</strong> после расторжения договора при отсутствии ущерба.
-
-📌 <strong>Ваши действия:</strong>
-1️⃣ Направьте <strong>письменную претензию</strong> арендодателю с указанием срока возврата
-2️⃣ При отказе — обратитесь в <strong>суд по месту жительства</strong> (госпошлина 1% от суммы)
-3️⃣ Потребуйте <strong>пеню 0.1% в день</strong> за просрочку возврата
-
-Могу подготовить претензионное письмо прямо сейчас.`,
-      kz: `<strong>ҚР АК 556-бабына</strong> сай, жалға беруші залогтық депозитті залал болмаса шарт бұзылғаннан кейін <strong>3 жұмыс күні</strong> ішінде қайтаруға міндетті.
-
-📌 <strong>Іс-қимылдарыңыз:</strong>
-1️⃣ Жалға берушіге қайтару мерзімін көрсетіп <strong>жазбаша талап хат</strong> жіберіңіз
-2️⃣ Бас тартқан жағдайда — <strong>тұрғылықты жер бойынша сотқа</strong> жүгініңіз (1% мемлекеттік баж салығы)
-3️⃣ Кешіктіру үшін күніне <strong>0,1% тұрақсыздық айыбын</strong> талап етіңіз
-
-Талап хатты дәл қазір дайындай аламын.`
-    },
-    cite: 'ГК РК ст. 556'
+    }
   },
   consumer: {
     user: {
       ru: 'Как вернуть некачественный товар?',
       kz: 'Сапасыз тауарды қалай қайтаруға болады?'
-    },
-    ai: {
-      ru: `Согласно <strong>Закону РК «О защите прав потребителей»</strong> (ст. 28), вы имеете право вернуть товар ненадлежащего качества в течение <strong>30 дней</strong> и потребовать:
-
-✅ Полного возврата стоимости, или
-✅ Замены на аналогичный товар надлежащего качества, или
-✅ Соразмерного снижения цены
-
-📌 <strong>Гарантийный срок по умолчанию:</strong> 1 год (ст. 30 Закона о ЗПП)
-
-<strong>Алгоритм действий:</strong>
-1. Напишите претензию продавцу — срок ответа <strong>10 дней</strong>
-2. При отказе — жалоба в Комитет по защите прав потребителей или суд
-
-Составлю претензию за 30 секунд. Укажите наименование товара и дату покупки.`,
-      kz: `<strong>ҚР «Тұтынушылар құқықтарын қорғау туралы» заңына</strong> (28-бап) сай, сапасыз тауарды <strong>30 күн</strong> ішінде қайтарып, мыналарды талап ете аласыз:
-
-✅ Толық құнын қайтару, немесе
-✅ Сапалы ұқсас тауарға ауыстыру, немесе
-✅ Бағаны пропорционалды төмендету
-
-📌 <strong>Әдепкі кепілдік мерзімі:</strong> 1 жыл (ТҚЗ заңының 30-бабы)
-
-<strong>Іс-қимыл алгоритмі:</strong>
-1. Сатушыға талап жазыңыз — жауап мерзімі <strong>10 күн</strong>
-2. Бас тартқан жағдайда — тұтынушылар комитетіне немесе сотқа шағым
-
-30 секундта талап дайындаймын. Тауар атауын және сатып алу күнін көрсетіңіз.`
-    },
-    cite: 'Закон о ЗПП ст. 28, 30'
+    }
   }
 };
 
@@ -195,9 +109,6 @@ function setLang(lang) {
     const val = status.getAttribute(`data-${lang}`);
     if (val) status.textContent = val;
   }
-
-  const welcome = document.getElementById('welcomeMsg');
-  if (welcome) welcome.innerHTML = welcome.getAttribute(`data-${lang}`) || welcome.innerHTML;
 }
 
 // ── Module Tabs ─────────────────────────────────────────────
@@ -277,25 +188,42 @@ function animateCounters() {
   });
 }
 
+// ── УТИЛИТА: Markdown Форматирование ────────────────────────
+function formatMarkdown(text) {
+  let html = text;
+  html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); // Жирный
+  html = html.replace(/\*(.*?)\*/g, '<em>$1</em>'); // Курсив
+  html = html.replace(/^\* (.*$)/gim, '• $1'); // Списки (*)
+  html = html.replace(/^\- (.*$)/gim, '• $1'); // Списки (-)
+  html = html.replace(/\n/g, '<br>'); // Переносы строк
+  return html;
+}
+
+function escapeHtml(str) {
+  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
 // ── Chat ────────────────────────────────────────────────────
 function initChat() {
   const sendBtn = document.getElementById('chatSend');
   const input = document.getElementById('chatInput');
 
-  sendBtn.addEventListener('click', handleSend);
-  input.addEventListener('keydown', e => {
-    // Умная отправка: Enter отправляет, Shift+Enter делает перенос
-    if (e.key === 'Enter' && !e.shiftKey) {
-      e.preventDefault(); 
-      handleSend();       
-    }
-  });
+  if(sendBtn && input) {
+    sendBtn.addEventListener('click', handleSend);
+    input.addEventListener('keydown', e => {
+      if (e.key === 'Enter' && !e.shiftKey) {
+        e.preventDefault(); 
+        handleSend();       
+      }
+    });
+  }
 }
 
 function handleSend() {
   const input = document.getElementById('chatInput');
   const text = input.value.trim();
   if (!text) return;
+  
   appendUserMessage(text);
   input.value = '';
 
@@ -303,17 +231,21 @@ function handleSend() {
   callGemini(text)
     .then(reply => {
       removeTyping();
-      appendAiMessage(escapeHtml(reply).replace(/\n/g, '<br>'), null);
+      // Экранируем HTML для безопасности, затем форматируем Markdown в красивые теги
+      const safeText = escapeHtml(reply);
+      const formattedReply = formatMarkdown(safeText);
+      appendAiMessage(formattedReply);
     })
     .catch(err => {
       removeTyping();
       const errMsg = currentLang === 'ru'
-        ? `⚠️ Ошибка: ${err.message}`
-        : `⚠️ Қате: ${err.message}`;
-      appendAiMessage(errMsg, null);
+        ? `⚠️ Ошибка соединения с сервером.`
+        : `⚠️ Сервермен байланыс қатесі.`;
+      appendAiMessage(errMsg);
     });
 }
 
+// Кнопки сценариев просто подставляют текст
 function initScenarioButtons() {
   document.querySelectorAll('.scenario-btn').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -324,110 +256,59 @@ function initScenarioButtons() {
       const scenario = scenarios[key];
       if (!scenario) return;
 
-      clearChat();
-      appendUserMessage(scenario.user[currentLang]);
-      showTyping(() => {
-        appendAiMessage(scenario.ai[currentLang], scenario.cite);
-      });
-
-      document.getElementById('demo').scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const chatInput = document.getElementById('chatInput');
+      chatInput.value = scenario.user[currentLang];
+      chatInput.focus();
     });
   });
 }
 
 function clearChat() {
   const messages = document.getElementById('chatMessages');
-  messages.innerHTML = '';
-  chatHistory = []; // Очищаем память, если начали новую беседу
+  if(messages) messages.innerHTML = '';
+  chatHistory = []; 
 }
 
+// НОВЫЙ ДИЗАЙН: Сообщение пользователя (справа, синее)
 function appendUserMessage(text) {
   const messages = document.getElementById('chatMessages');
   const div = document.createElement('div');
   div.className = 'msg user';
+  
+  const now = new Date();
+  const timeString = now.getHours() + ':' + (now.getMinutes() < 10 ? '0' : '') + now.getMinutes();
+  const author = currentLang === 'ru' ? 'Вы' : 'Сіз';
+
   div.innerHTML = `
-    <div class="msg-avatar">👤</div>
-    <div>
-      <div class="msg-bubble">${escapeHtml(text)}</div>
-      <div class="msg-meta">${currentLang === 'ru' ? 'Вы · сейчас' : 'Сіз · қазір'}</div>
+    <div style="margin-left: auto; text-align: right; width: 100%; display: flex; flex-direction: column; align-items: flex-end;">
+        <div class="msg-bubble" style="background: #2563eb; color: #fff; border-bottom-right-radius: 4px; border-bottom-left-radius: 12px; border-top-left-radius: 12px; border-top-right-radius: 12px; display: inline-block; text-align: left;">${escapeHtml(text)}</div>
+        <div class="msg-meta" style="justify-content: flex-end;">${author} · ${timeString}</div>
     </div>
   `;
   messages.appendChild(div);
   scrollToBottom(messages);
 }
 
-function showTyping(callback) {
-  const messages = document.getElementById('chatMessages');
-  const typing = document.createElement('div');
-  typing.className = 'msg ai';
-  typing.id = 'typingIndicator';
-  typing.innerHTML = `
-    <div class="msg-avatar">⚖️</div>
-    <div class="msg-bubble" style="padding:0.6rem 1rem;">
-      <div class="typing-indicator">
-        <span></span><span></span><span></span>
-      </div>
-    </div>
-  `;
-  messages.appendChild(typing);
-  scrollToBottom(messages);
-
-  const delay = 1200 + Math.random() * 800;
-  setTimeout(() => {
-    typing.remove();
-    callback();
-  }, delay);
-}
-
-function appendAiMessage(html, cite) {
+// НОВЫЙ ДИЗАЙН: Сообщение бота (слева, светлое)
+function appendAiMessage(htmlText) {
   const messages = document.getElementById('chatMessages');
   const div = document.createElement('div');
   div.className = 'msg ai';
+
+  const now = new Date();
+  const timeString = now.getHours() + ':' + (now.getMinutes() < 10 ? '0' : '') + now.getMinutes();
+
   div.innerHTML = `
-    <div class="msg-avatar">⚖️</div>
+    <div class="msg-avatar" style="background: #eff6ff; border: 1px solid #bfdbfe;">⚖️</div>
     <div>
-      <div class="msg-bubble">
-        ${html}
-        ${cite ? `<div style="margin-top:0.5rem;"><span class="law-cite">📖 ${cite}</span></div>` : ''}
-      </div>
-      <div class="msg-meta">Zetef (ZF) · ${currentLang === 'ru' ? 'сейчас' : 'қазір'}</div>
+        <div class="msg-bubble" style="box-shadow: 0 2px 5px rgba(0,0,0,0.05);">
+          ${htmlText}
+        </div>
+        <div class="msg-meta">Zetef (ZF) · ${timeString}</div>
     </div>
   `;
   messages.appendChild(div);
   scrollToBottom(messages);
-}
-
-function scrollToBottom(el) {
-  el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' });
-}
-
-function escapeHtml(str) {
-  return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
-}
-
-async function callGemini(userMessage) {
-  // 1. Сохраняем сообщение пользователя в память
-  chatHistory.push({ role: 'user', parts: [{ text: userMessage }] });
-
-  const res = await fetch('/api/chat', { 
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({
-      history: chatHistory, // 2. Отправляем всю память на сервер
-      systemPrompt: SYSTEM_PROMPT
-    })
-  });
-
-  if (!res.ok) throw new Error(`Ошибка: ${res.status}`);
-
-  const data = await res.json();
-  const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-  if (!text) throw new Error('Пустой ответ от API');
-
-  // 3. Сохраняем ответ бота в память, чтобы он его помнил!
-  chatHistory.push({ role: 'model', parts: [{ text: text }] });
-
-  return text;
 }
 
 function showTypingRaw() {
@@ -436,8 +317,8 @@ function showTypingRaw() {
   el.className = 'msg ai';
   el.id = 'typingIndicator';
   el.innerHTML = `
-    <div class="msg-avatar">⚖️</div>
-    <div class="msg-bubble" style="padding:0.6rem 1rem;">
+    <div class="msg-avatar" style="background: #eff6ff; border: 1px solid #bfdbfe;">⚖️</div>
+    <div class="msg-bubble" style="box-shadow: 0 2px 5px rgba(0,0,0,0.05); padding:0.6rem 1rem;">
       <div class="typing-indicator"><span></span><span></span><span></span></div>
     </div>
   `;
@@ -450,93 +331,30 @@ function removeTyping() {
   if (t) t.remove();
 }
 
-// ==========================================
-// ЛОГИКА ЧАТА С ZETEF И ФОРМАТИРОВАНИЕ MARKDOWN (ИСПРАВЛЕНО)
-// ==========================================
-document.addEventListener("DOMContentLoaded", () => {
-    // Находим нужные элементы на странице
-    const chatInput = document.getElementById("chatInput");
-    const chatSend = document.getElementById("chatSend");
-    const chatMessages = document.getElementById("chatMessages");
-    const scenarioBtns = document.querySelectorAll(".scenario-btn");
-    
-    // Если элементов чата нет на странице, прерываем работу
-    if (!chatInput || !chatSend || !chatMessages) return;
+function scrollToBottom(el) {
+  el.scrollTo({ top: el.scrollHeight, behavior: 'smooth' });
+}
 
-    // 1. ФУНКЦИЯ ФОРМАТИРОВАНИЯ ТЕКСТА (MARKDOWN)
-    function formatMarkdown(text) {
-        let html = text;
-        html = html.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'); // Жирный
-        html = html.replace(/\*(.*?)\*/g, '<em>$1</em>'); // Курсив
-        html = html.replace(/^\* (.*$)/gim, '• $1'); // Списки (*)
-        html = html.replace(/^\- (.*$)/gim, '• $1'); // Списки (-)
-        html = html.replace(/\n/g, '<br>'); // Переносы строк
-        return html;
-    }
+// ── API Call ────────────────────────────────────────────────
+async function callGemini(userMessage) {
+  chatHistory.push({ role: 'user', parts: [{ text: userMessage }] });
 
-    // 2. ФУНКЦИЯ ДОБАВЛЕНИЯ СООБЩЕНИЯ В ЧАТ
-    function appendMessage(role, text) {
-        const msgDiv = document.createElement("div");
-        msgDiv.classList.add("msg", role === "user" ? "user" : "ai");
+  const res = await fetch('/api/chat', { 
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({
+      history: chatHistory, 
+      systemPrompt: SYSTEM_PROMPT
+    })
+  });
 
-        const now = new Date();
-        const timeString = now.getHours() + ':' + (now.getMinutes() < 10 ? '0' : '') + now.getMinutes();
+  if (!res.ok) throw new Error(`Ошибка: ${res.status}`);
 
-        if (role === "ai") {
-            msgDiv.innerHTML = `
-                <div class="msg-avatar" style="background: #eff6ff; border: 1px solid #bfdbfe;">⚖️</div>
-                <div>
-                    <div class="msg-bubble" style="box-shadow: 0 2px 5px rgba(0,0,0,0.05);">${formatMarkdown(text)}</div>
-                    <div class="msg-meta">Zetef · ${timeString}</div>
-                </div>
-            `;
-        } else {
-            msgDiv.innerHTML = `
-                <div style="margin-left: auto; text-align: right; width: 100%; display: flex; flex-direction: column; align-items: flex-end;">
-                    <div class="msg-bubble" style="background: #2563eb; color: #fff; border-bottom-right-radius: 4px; border-bottom-left-radius: 12px; border-top-left-radius: 12px; border-top-right-radius: 12px; display: inline-block;">${text}</div>
-                    <div class="msg-meta" style="justify-content: flex-end;">Вы · ${timeString}</div>
-                </div>
-            `;
-        }
+  const data = await res.json();
+  const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+  if (!text) throw new Error('Пустой ответ от API');
 
-        chatMessages.appendChild(msgDiv);
-        chatMessages.scrollTop = chatMessages.scrollHeight; 
-    }
+  chatHistory.push({ role: 'model', parts: [{ text: text }] });
 
-    // ==========================================
-    // 3. ОБРАБОТЧИК ОТПРАВКИ СООБЩЕНИЯ (ИСПРАВЛЕНО)
-    // ==========================================
-    function sendMessage(text) {
-        if (!text.trim()) return; 
-        
-        appendMessage("user", text); // Добавляем сообщение пользователя в чат
-        chatInput.value = ""; // Очищаем поле ввода
-
-        // УБРАЛИ DEMO-ОТВЕТ. ТЕПЕРЬ ОН БУДЕТ ЗАПРАШИВАТЬСЯ В callGemini
-    }
-
-    chatSend.addEventListener("click", () => sendMessage(chatInput.value));
-    
-    chatInput.addEventListener("keypress", (e) => {
-        if (e.key === "Enter") sendMessage(chatInput.value);
-    });
-
-    // ==========================================
-    // 4. КНОПКИ БЫСТРЫХ СЦЕНАРИЕВ (ИСПРАВЛЕНО)
-    // ==========================================
-    if (scenarioBtns.length > 0) {
-        scenarioBtns.forEach(btn => {
-            btn.addEventListener("click", () => {
-                // Меняем визуально активную кнопку
-                scenarioBtns.forEach(b => b.classList.remove("active"));
-                btn.classList.add("active");
-                
-                const scenarioText = btn.querySelector("span:nth-child(2)").textContent;
-                
-                // НОВОЕ: Подставляем текст в поле ввода, вместо автоматической отправки
-                chatInput.value = scenarioText; 
-                chatInput.focus(); // Фокусируемся на поле ввода
-            });
-        });
-    }
-});
+  return text;
+}
