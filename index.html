@@ -183,8 +183,8 @@
     <section id="tab-services" class="tab-pane">
       <div class="container">
         <div class="modules-header text-center reveal">
-          <h2 class="section-title">Наши Услуги и Тарифы</h2>
-          <p class="section-subtitle">Базовые юридические консультации бесплатны. Для бизнеса мы предлагаем продвинутые решения.</p>
+          <h2 class="section-title">Наши Услуги</h2>
+          <p class="section-subtitle">Базовые юридические консультации и помощь бизнесу предоставляются бесплатно в рамках бета-тестирования ИИ.</p>
         </div>
         
         <div class="features-grid" style="margin-bottom: 40px;">
@@ -196,19 +196,8 @@
           <div class="feature-card" style="border-top: 4px solid #2563eb;">
             <h3>Для Бизнеса (B2B)</h3>
             <p>Анализ договоров, проверка налогового режима по ОКЭД, лицензирование и разрешения для малого и среднего бизнеса.</p>
-            <div style="margin-top: 15px; font-weight: bold; color: #10b981;">Бесплатно (Базовый)</div>
+            <div style="margin-top: 15px; font-weight: bold; color: #10b981;">Бесплатно</div>
           </div>
-        </div>
-
-        <div class="pricing-card reveal" style="max-width: 800px; margin: 0 auto; background: linear-gradient(135deg, #f8fafc, #eff6ff); border: 2px solid #2563eb; border-radius: 16px; padding: 40px; text-align: center; box-shadow: 0 10px 30px rgba(37, 99, 235, 0.15);">
-          <div style="display: inline-block; background: #2563eb; color: #fff; padding: 6px 16px; border-radius: 20px; font-size: 0.9rem; font-weight: bold; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 1px;">PRO Подписка</div>
-          <h3 style="color: #1e3a8a; font-size: 2.2rem; margin-bottom: 10px;">Zetef Бухгалтер</h3>
-          <div style="font-size: 3rem; font-weight: bold; color: #2563eb; margin-bottom: 20px;">$15 <span style="font-size: 1.2rem; color: #64748b; font-weight: normal;">/ месяц</span></div>
-          <p style="color: #475569; margin-bottom: 30px; font-size: 1.1rem; line-height: 1.6; max-width: 600px; margin-left: auto; margin-right: auto;">
-            Замените штатного специалиста умным ИИ. Полное ведение бухгалтерского учета для ИП и ТОО. Zetef автоматически рассчитывает налоги, подготавливает отчетность (формы 200.00, 910.00 и др.), проверяет контрагентов и проактивно предупреждает о сроках сдачи ФНО.
-          </p>
-          <button style="background: #2563eb; color: #fff; border: none; padding: 15px 40px; font-size: 1.2rem; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s;">Оформить подписку</button>
-          <div style="margin-top: 15px; font-size: 0.85rem; color: #94a3b8;">Отменить можно в любой момент. Доступ к API включен.</div>
         </div>
       </div>
     </section>
@@ -252,115 +241,3 @@
     }
 
     function switchTab(tabId) {
-      if (navLinksMenu) {
-        navLinksMenu.classList.remove('active-menu');
-      }
-
-      document.querySelectorAll('.tab-pane').forEach(tab => {
-        tab.classList.remove('active');
-      });
-      document.querySelectorAll('.tab-link').forEach(link => {
-        link.classList.remove('active');
-      });
-
-      const activeTab = document.getElementById(tabId);
-      if(activeTab) activeTab.classList.add('active');
-
-      const activeLink = document.querySelector(`.tab-link[onclick="switchTab('${tabId}')"]`);
-      if(activeLink) activeLink.classList.add('active');
-    }
-  </script>
-
-  <script src="app.js"></script>
-  <script type="module">
-    // 1. Импортируем Firebase из интернета напрямую в браузер
-    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
-    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
-
-    // 2. Ваши ключи от базы данных ZangerFetch
-    const firebaseConfig = {
-      apiKey: "AIzaSyD8_ngGR9_OTWER31hCnkVrqlaAZiocHIo",
-      authDomain: "zangerfetch.firebaseapp.com",
-      projectId: "zangerfetch",
-      storageBucket: "zangerfetch.firebasestorage.app",
-      messagingSenderId: "748332046911",
-      appId: "1:748332046911:web:8f1e76b67494a0d76d768a"
-    };
-
-    // 3. Запускаем Firebase
-    const app = initializeApp(firebaseConfig);
-    const auth = getAuth(app);
-
-    // Ищем элементы на странице
-    const authFormBlock = document.getElementById('authFormBlock');
-    const authProfileBlock = document.getElementById('authProfileBlock');
-    const authEmail = document.getElementById('authEmail');
-    const authPassword = document.getElementById('authPassword');
-    const authLoginBtn = document.getElementById('authLoginBtn');
-    const authRegisterBtn = document.getElementById('authRegisterBtn');
-    const authLogoutBtn = document.getElementById('authLogoutBtn');
-    const authMessage = document.getElementById('authMessage');
-    const userEmailDisplay = document.getElementById('userEmailDisplay');
-
-    // 4. Главный шпион: следит, вошел пользователь или вышел
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        // Ура, мы авторизованы! Прячем форму, показываем профиль
-        authFormBlock.style.display = 'none';
-        authProfileBlock.style.display = 'block';
-        userEmailDisplay.textContent = user.email;
-        authMessage.textContent = ''; 
-      } else {
-        // Мы не в системе. Показываем форму входа
-        authFormBlock.style.display = 'block';
-        authProfileBlock.style.display = 'none';
-        authEmail.value = '';
-        authPassword.value = '';
-      }
-    });
-
-    // 5. Логика кнопки "Зарегистрироваться"
-    authRegisterBtn.addEventListener('click', () => {
-      const email = authEmail.value;
-      const password = authPassword.value;
-      if (!email || !password) {
-        authMessage.textContent = 'Пожалуйста, введите Email и пароль!';
-        return;
-      }
-      authMessage.style.color = '#1e3a8a';
-      authMessage.textContent = 'Создаем аккаунт...';
-      
-      createUserWithEmailAndPassword(auth, email, password)
-        .catch((error) => {
-          authMessage.style.color = '#ef4444';
-          if (error.code === 'auth/email-already-in-use') authMessage.textContent = 'Этот Email уже занят. Нажмите "Войти".';
-          else if (error.code === 'auth/weak-password') authMessage.textContent = 'Пароль должен быть не менее 6 символов.';
-          else authMessage.textContent = 'Ошибка: ' + error.message;
-        });
-    });
-
-    // 6. Логика кнопки "Войти"
-    authLoginBtn.addEventListener('click', () => {
-      const email = authEmail.value;
-      const password = authPassword.value;
-      if (!email || !password) {
-        authMessage.textContent = 'Пожалуйста, введите Email и пароль!';
-        return;
-      }
-      authMessage.style.color = '#1e3a8a';
-      authMessage.textContent = 'Входим...';
-
-      signInWithEmailAndPassword(auth, email, password)
-        .catch((error) => {
-          authMessage.style.color = '#ef4444';
-          authMessage.textContent = 'Неверный Email или пароль.';
-        });
-    });
-
-    // 7. Логика кнопки "Выйти"
-    authLogoutBtn.addEventListener('click', () => {
-      signOut(auth);
-    });
-  </script>
-</body>
-</html>
