@@ -261,12 +261,12 @@
   </script>
 
   <script src="app.js"></script>
-  <script type="module">
-    // 1. Импортируем Firebase из интернета напрямую в браузер
+ <script type="module">
+    // 1. Импортируем Firebase
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
     import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
 
-    // 2. Ваши ключи от базы данных ZangerFetch
+    // 2. Ваши ключи
     const firebaseConfig = {
       apiKey: "AIzaSyD8_ngGR9_OTWER31hCnkVrqlaAZiocHIo",
       authDomain: "zangerfetch.firebaseapp.com",
@@ -280,7 +280,7 @@
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    // Ищем элементы на странице
+    // Ищем элементы
     const authFormBlock = document.getElementById('authFormBlock');
     const authProfileBlock = document.getElementById('authProfileBlock');
     const authEmail = document.getElementById('authEmail');
@@ -291,16 +291,17 @@
     const authMessage = document.getElementById('authMessage');
     const userEmailDisplay = document.getElementById('userEmailDisplay');
 
-    // 4. Главный шпион: следит, вошел пользователь или вышел
+    // 4. Следим за входом
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        // Ура, мы авторизованы! Прячем форму, показываем профиль
-        authFormBlock.style.display = 'none';
-        authProfileBlock.style.display = 'block';
-        userEmailDisplay.textContent = user.email;
-        authMessage.textContent = ''; 
+        // Небольшая задержка, чтобы пользователь успел прочитать "Вы зарегистрированы"
+        setTimeout(() => {
+          authFormBlock.style.display = 'none';
+          authProfileBlock.style.display = 'block';
+          userEmailDisplay.textContent = user.email;
+          authMessage.textContent = ''; 
+        }, 1500);
       } else {
-        // Мы не в системе. Показываем форму входа
         authFormBlock.style.display = 'block';
         authProfileBlock.style.display = 'none';
         authEmail.value = '';
@@ -308,11 +309,12 @@
       }
     });
 
-    // 5. Логика кнопки "Зарегистрироваться"
+    // 5. Логика регистрации (ИСПРАВЛЕННАЯ)
     authRegisterBtn.addEventListener('click', () => {
       const email = authEmail.value;
       const password = authPassword.value;
       if (!email || !password) {
+        authMessage.style.color = '#ef4444';
         authMessage.textContent = 'Пожалуйста, введите Email и пароль!';
         return;
       }
@@ -320,7 +322,44 @@
       authMessage.textContent = 'Создаем аккаунт...';
       
       createUserWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          // ВОТ ЭТО Я ЗАБЫЛ: Сообщение об успехе
+          authMessage.style.color = '#10b981'; // Зеленый цвет
+          authMessage.textContent = 'Успешно! Вы зарегистрированы.';
+        })
         .catch((error) => {
-          authMessage.style.color = '#ef4444';
+          authMessage.style.color = '#ef4444'; // Красный цвет
           if (error.code === 'auth/email-already-in-use') authMessage.textContent = 'Этот Email уже занят. Нажмите "Войти".';
           else if (error.code === 'auth/weak-password') authMessage.textContent = 'Пароль должен быть не менее 6 символов.';
+          else authMessage.textContent = 'Ошибка: ' + error.message;
+        });
+    });
+
+    // 6. Логика входа (ИСПРАВЛЕННАЯ)
+    authLoginBtn.addEventListener('click', () => {
+      const email = authEmail.value;
+      const password = authPassword.value;
+      if (!email || !password) {
+        authMessage.style.color = '#ef4444';
+        authMessage.textContent = 'Пожалуйста, введите Email и пароль!';
+        return;
+      }
+      authMessage.style.color = '#1e3a8a';
+      authMessage.textContent = 'Входим...';
+
+      signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+          authMessage.style.color = '#10b981';
+          authMessage.textContent = 'Вход выполнен!';
+        })
+        .catch((error) => {
+          authMessage.style.color = '#ef4444';
+          authMessage.textContent = 'Неверный Email или пароль.';
+        });
+    });
+
+    // 7. Логика выхода
+    authLogoutBtn.addEventListener('click', () => {
+      signOut(auth);
+    });
+  </script>
