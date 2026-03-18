@@ -337,7 +337,16 @@ function scrollToBottom(el) {
 
 // ── API Call ────────────────────────────────────────────────
 async function callGemini(userMessage) {
-  chatHistory.push({ role: 'user', parts: [{ text: userMessage }] });
+  // 1. Формируем скрытую команду для бота в зависимости от выбранного языка сайта
+  const langInstruction = currentLang === 'kz' 
+    ? "\n\n[Скрытая инструкция для ИИ: Жауапты міндетті түрде қазақ тілінде бер!]" 
+    : "\n\n[Скрытая инструкция для ИИ: Отвечай на русском языке!]";
+
+  // 2. Незаметно приклеиваем команду к сообщению пользователя
+  const textToSend = userMessage + langInstruction;
+
+  // 3. Сохраняем в историю и отправляем на сервер именно склеенный текст (textToSend)
+  chatHistory.push({ role: 'user', parts: [{ text: textToSend }] });
 
   const res = await fetch('/api/chat', { 
     method: 'POST',
@@ -354,6 +363,7 @@ async function callGemini(userMessage) {
   const text = data?.candidates?.[0]?.content?.parts?.[0]?.text;
   if (!text) throw new Error('Пустой ответ от API');
 
+  // Ответ ИИ сохраняем как обычно
   chatHistory.push({ role: 'model', parts: [{ text: text }] });
 
   return text;
