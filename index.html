@@ -217,14 +217,24 @@
       <div class="container">
         <div class="auth-container reveal">
           <h2>Личный кабинет</h2>
-          <div class="auth-form">
-            <input type="email" placeholder="Ваш Email (например: name@mail.kz)" required>
-            <input type="password" placeholder="Пароль" required>
-            <button>Войти / Зарегистрироваться</button>
-            <p style="text-align: center; margin-top: 15px; font-size: 0.9rem; color: #64748b;">
-              Сохраняйте историю чатов и документы в безопасном облаке.
-            </p>
+          
+          <div class="auth-form" id="authFormBlock">
+            <input type="email" id="authEmail" placeholder="Ваш Email (например: name@mail.kz)" required>
+            <input type="password" id="authPassword" placeholder="Пароль (минимум 6 символов)" required>
+            
+            <button id="authLoginBtn" style="margin-bottom: 10px;">Войти</button>
+            <button id="authRegisterBtn" style="background: #e2e8f0; color: #1e3a8a;">Зарегистрироваться</button>
+            
+            <p id="authMessage" style="text-align: center; margin-top: 15px; font-size: 0.9rem; color: #ef4444; font-weight: bold;"></p>
           </div>
+
+          <div id="authProfileBlock" style="display: none; text-align: center;">
+            <div style="font-size: 3rem; margin-bottom: 10px;">👤</div>
+            <p style="color: #475569; margin-bottom: 5px;">Вы авторизованы как:</p>
+            <p><strong id="userEmailDisplay" style="color: #1e3a8a; font-size: 1.1rem;"></strong></p>
+            <button id="authLogoutBtn" style="background: #ef4444; margin-top: 20px; width: 100%; padding: 12px; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">Выйти из аккаунта</button>
+          </div>
+
         </div>
       </div>
     </section>
@@ -262,5 +272,95 @@
   </script>
 
   <script src="app.js"></script>
+  <script type="module">
+    // 1. Импортируем Firebase из интернета напрямую в браузер
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
+
+    // 2. Ваши ключи от базы данных ZangerFetch
+    const firebaseConfig = {
+      apiKey: "AIzaSyD8_ngGR9_OTWER31hCnkVrqlaAZiocHIo",
+      authDomain: "zangerfetch.firebaseapp.com",
+      projectId: "zangerfetch",
+      storageBucket: "zangerfetch.firebasestorage.app",
+      messagingSenderId: "748332046911",
+      appId: "1:748332046911:web:8f1e76b67494a0d76d768a"
+    };
+
+    // 3. Запускаем Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Ищем элементы на странице
+    const authFormBlock = document.getElementById('authFormBlock');
+    const authProfileBlock = document.getElementById('authProfileBlock');
+    const authEmail = document.getElementById('authEmail');
+    const authPassword = document.getElementById('authPassword');
+    const authLoginBtn = document.getElementById('authLoginBtn');
+    const authRegisterBtn = document.getElementById('authRegisterBtn');
+    const authLogoutBtn = document.getElementById('authLogoutBtn');
+    const authMessage = document.getElementById('authMessage');
+    const userEmailDisplay = document.getElementById('userEmailDisplay');
+
+    // 4. Главный шпион: следит, вошел пользователь или вышел
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // Ура, мы авторизованы! Прячем форму, показываем профиль
+        authFormBlock.style.display = 'none';
+        authProfileBlock.style.display = 'block';
+        userEmailDisplay.textContent = user.email;
+        authMessage.textContent = ''; 
+      } else {
+        // Мы не в системе. Показываем форму входа
+        authFormBlock.style.display = 'block';
+        authProfileBlock.style.display = 'none';
+        authEmail.value = '';
+        authPassword.value = '';
+      }
+    });
+
+    // 5. Логика кнопки "Зарегистрироваться"
+    authRegisterBtn.addEventListener('click', () => {
+      const email = authEmail.value;
+      const password = authPassword.value;
+      if (!email || !password) {
+        authMessage.textContent = 'Пожалуйста, введите Email и пароль!';
+        return;
+      }
+      authMessage.style.color = '#1e3a8a';
+      authMessage.textContent = 'Создаем аккаунт...';
+      
+      createUserWithEmailAndPassword(auth, email, password)
+        .catch((error) => {
+          authMessage.style.color = '#ef4444';
+          if (error.code === 'auth/email-already-in-use') authMessage.textContent = 'Этот Email уже занят. Нажмите "Войти".';
+          else if (error.code === 'auth/weak-password') authMessage.textContent = 'Пароль должен быть не менее 6 символов.';
+          else authMessage.textContent = 'Ошибка: ' + error.message;
+        });
+    });
+
+    // 6. Логика кнопки "Войти"
+    authLoginBtn.addEventListener('click', () => {
+      const email = authEmail.value;
+      const password = authPassword.value;
+      if (!email || !password) {
+        authMessage.textContent = 'Пожалуйста, введите Email и пароль!';
+        return;
+      }
+      authMessage.style.color = '#1e3a8a';
+      authMessage.textContent = 'Входим...';
+
+      signInWithEmailAndPassword(auth, email, password)
+        .catch((error) => {
+          authMessage.style.color = '#ef4444';
+          authMessage.textContent = 'Неверный Email или пароль.';
+        });
+    });
+
+    // 7. Логика кнопки "Выйти"
+    authLogoutBtn.addEventListener('click', () => {
+      signOut(auth);
+    });
+  </script>
 </body>
 </html>
