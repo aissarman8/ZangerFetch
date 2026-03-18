@@ -41,32 +41,16 @@
     .chat-send:hover { background: #1d4ed8 !important; }
     .msg-bubble { box-shadow: 0 2px 5px rgba(0,0,0,0.05) !important; }
 
-    /* =========================================
-       МОБИЛЬНОЕ МЕНЮ (ИСПРАВЛЕННЫЕ ЦВЕТА)
-       ========================================= */
+    /* Мобильное меню */
     .nav-inner { position: relative; display: flex; align-items: center; justify-content: space-between; }
     .hamburger { display: none; cursor: pointer; flex-direction: column; gap: 5px; margin-left: 15px; }
-    /* Полоски гамбургера теперь БЕЛЫЕ, чтобы их было видно на синей шапке */
     .hamburger span { width: 25px; height: 3px; background: #ffffff; border-radius: 3px; transition: 0.3s; }
     
     @media (max-width: 768px) {
       .hamburger { display: flex; }
-      .nav-links { 
-        display: none; 
-        position: absolute; 
-        top: 100%; 
-        left: 0; 
-        width: 100%; 
-        background: #1e3a8a !important; 
-        flex-direction: column; 
-        padding: 20px 0; 
-        box-shadow: 0 10px 15px rgba(0,0,0,0.1); 
-        border-top: 1px solid #e2e8f0; 
-        z-index: 1000;
-      }
+      .nav-links { display: none; position: absolute; top: 100%; left: 0; width: 100%; background: #1e3a8a !important; flex-direction: column; padding: 20px 0; box-shadow: 0 10px 15px rgba(0,0,0,0.1); border-top: 1px solid #e2e8f0; z-index: 1000; }
       .nav-links.active-menu { display: flex !important; } 
       .nav-links li { margin: 12px 0; text-align: center; }
-      /* Текст принудительно делаем СИНИМ (!important), чтобы перебить белый цвет из style.css */
       .nav-links a { color: #1e3a8a !important; font-size: 1.1rem; }
       .nav-links a.active { color: #2563eb !important; border-bottom: 2px solid #2563eb !important; padding-bottom: 4px; }
     }
@@ -83,10 +67,10 @@
       </a>
       
       <ul class="nav-links" id="navLinksMenu">
-        <li><a class="tab-link active" onclick="switchTab('tab-chat')">Чат с Zetef</a></li>
-        <li><a class="tab-link" onclick="switchTab('tab-features')">Возможности</a></li>
-        <li><a class="tab-link" onclick="switchTab('tab-services')">Наши услуги</a></li>
-        <li><a class="tab-link" onclick="switchTab('tab-auth')">Регистрация</a></li>
+        <li><a class="tab-link active" onclick="switchTab('tab-chat')" data-i18n="navChat">Чат с Zetef</a></li>
+        <li><a class="tab-link" onclick="switchTab('tab-features')" data-i18n="navFeatures">Возможности</a></li>
+        <li><a class="tab-link" onclick="switchTab('tab-services')" data-i18n="navServices">Наши услуги</a></li>
+        <li><a class="tab-link" onclick="switchTab('tab-auth')" data-i18n="navAuth">Регистрация</a></li>
       </ul>
       
       <div class="nav-actions" style="display: flex; align-items: center;">
@@ -108,15 +92,15 @@
       <div class="container">
         <div class="demo-wrapper">
           <div class="demo-info reveal">
-            <h2 class="section-title">Ваш личный ИИ-юрист</h2>
-            <p class="section-subtitle" style="margin-bottom:1.8rem;">
+            <h2 class="section-title" data-i18n="titleMain">Ваш личный ИИ-юрист</h2>
+            <p class="section-subtitle" style="margin-bottom:1.8rem;" data-i18n="subtitleMain">
               Выберите быстрый сценарий или опишите свою проблему подробно. Zetef анализирует законы РК в реальном времени.
             </p>
             <div class="demo-scenarios" id="demoScenarios">
-              <button class="scenario-btn" data-scenario="fired"><span class="s-icon">💼</span><span>Меня уволили без предупреждения</span></button>
-              <button class="scenario-btn" data-scenario="tax"><span class="s-icon">🧾</span><span>Какой налог выбрать для ТОО?</span></button>
-              <button class="scenario-btn" data-scenario="rent"><span class="s-icon">🏠</span><span>Не возвращают депозит за квартиру</span></button>
-              <button class="scenario-btn" data-scenario="consumer"><span class="s-icon">🛒</span><span>Как вернуть некачественный товар?</span></button>
+              <button class="scenario-btn" data-scenario="fired" data-i18n="scen1"><span class="s-icon">💼</span><span>Меня уволили без предупреждения</span></button>
+              <button class="scenario-btn" data-scenario="tax" data-i18n="scen2"><span class="s-icon">🧾</span><span>Какой налог выбрать для ТОО?</span></button>
+              <button class="scenario-btn" data-scenario="rent" data-i18n="scen3"><span class="s-icon">🏠</span><span>Не возвращают депозит за квартиру</span></button>
+              <button class="scenario-btn" data-scenario="consumer" data-i18n="scen4"><span class="s-icon">🛒</span><span>Как вернуть некачественный товар?</span></button>
             </div>
           </div>
           
@@ -125,22 +109,22 @@
               <div class="chat-avatar" style="background: rgba(255,255,255,0.2);">⚖️</div>
               <div class="chat-header-info">
                 <div class="chat-name">Zetef (ZF)</div>
-                <div class="chat-status">Онлайн · Законы РК 2024</div>
+                <div class="chat-status" data-i18n="chatStatus">Онлайн · Законы РК 2024</div>
               </div>
             </div>
             <div class="chat-messages" id="chatMessages" style="background: #ffffff;">
               <div class="msg ai">
                 <div class="msg-avatar" style="background: #eff6ff; border: 1px solid #bfdbfe;">⚖️</div>
                 <div>
-                  <div class="msg-bubble" id="welcomeMsg">
+                  <div class="msg-bubble" id="welcomeMsg" data-i18n="welcomeMsg">
                     Здравствуйте. Я Zetef. Опишите вашу правовую ситуацию, и я предоставлю анализ согласно законодательству Республики Казахстан.
                   </div>
-                  <div class="msg-meta">Zetef · сейчас</div>
+                  <div class="msg-meta" data-i18n="chatMeta">Zetef · сейчас</div>
                 </div>
               </div>
             </div>
             <div class="chat-input-area">
-              <input type="text" class="chat-input" id="chatInput" placeholder="Опишите вашу ситуацию..." />
+              <input type="text" class="chat-input" id="chatInput" placeholder="Опишите вашу ситуацию..." data-i18n="chatInput" />
               <button class="chat-send" id="chatSend">➤</button>
             </div>
           </div>
@@ -151,30 +135,31 @@
     <section id="tab-features" class="tab-pane">
       <div class="container">
         <div class="usecases-header text-center reveal">
-          <h2 class="section-title">Что умеет Zetef и как им пользоваться?</h2>
-          <p class="section-subtitle">Zetef — это строгий ИИ-юрист, обученный на законодательной базе Республики Казахстан.</p>
+          <h2 class="section-title" data-i18n="featTitle">Что умеет Zetef и как им пользоваться?</h2>
+          <p class="section-subtitle" data-i18n="featSubtitle">Zetef — это строгий ИИ-юрист, обученный на законодательной базе Республики Казахстан.</p>
         </div>
         
         <div class="features-grid">
           <div class="feature-card">
             <div class="feature-icon">📝</div>
-            <h3>Составление документов</h3>
-            <p>Zetef может за секунды сгенерировать претензию, иск, жалобу или официальное письмо с правильными ссылками на статьи законов РК.</p>
+            <h3 data-i18n="feat1Title">Составление документов</h3>
+            <p data-i18n="feat1Desc">Zetef может за секунды сгенерировать претензию, иск, жалобу или официальное письмо с правильными ссылками на статьи законов РК.</p>
           </div>
           <div class="feature-card">
             <div class="feature-icon">🔍</div>
-            <h3>Правовой анализ ситуаций</h3>
-            <p>Опишите вашу проблему. Zetef задаст уточняющие вопросы и выдаст четкий алгоритм действий для защиты ваших прав.</p>
+            <h3 data-i18n="feat2Title">Правовой анализ ситуаций</h3>
+            <p data-i18n="feat2Desc">Опишите вашу проблему. Zetef задаст уточняющие вопросы и выдаст четкий алгоритм действий для защиты ваших прав.</p>
           </div>
           <div class="feature-card">
+            <div class="feature-card">
             <div class="feature-icon">💼</div>
-            <h3>Поддержка бизнеса (B2B)</h3>
-            <p>Бот поможет выбрать налоговый режим, проверит договоры на подводные камни по ГК РК и подскажет, как легально избежать штрафов.</p>
+            <h3 data-i18n="feat3Title">Поддержка бизнеса (B2B)</h3>
+            <p data-i18n="feat3Desc">Бот поможет выбрать налоговый режим, проверит договоры на подводные камни по ГК РК и подскажет, как легально избежать штрафов.</p>
           </div>
           <div class="feature-card">
             <div class="feature-icon">🛡️</div>
-            <h3>Защита прав потребителей</h3>
-            <p>Продали бракованный товар или отказываются возвращать деньги? Zetef расскажет, как применить закон на практике.</p>
+            <h3 data-i18n="feat4Title">Защита прав потребителей</h3>
+            <p data-i18n="feat4Desc">Продали бракованный товар или отказываются возвращать деньги? Zetef расскажет, как применить закон на практике.</p>
           </div>
         </div>
       </div>
@@ -183,20 +168,20 @@
     <section id="tab-services" class="tab-pane">
       <div class="container">
         <div class="modules-header text-center reveal">
-          <h2 class="section-title">Наши Услуги</h2>
-          <p class="section-subtitle">Базовые юридические консультации бесплатны. Для бизнеса мы предлагаем продвинутые решения.</p>
+          <h2 class="section-title" data-i18n="servTitle">Наши Услуги</h2>
+          <p class="section-subtitle" data-i18n="servSubtitle">Базовые юридические консультации бесплатны. Для бизнеса мы предлагаем продвинутые решения.</p>
         </div>
         
         <div class="features-grid" style="margin-bottom: 40px;">
           <div class="feature-card" style="border-top: 4px solid #d4a843;">
-            <h3 style="color:#d4a843;">Для Граждан (B2C)</h3>
-            <p>Правовой триаж: семейное, жилищное, трудовое право. Генерация жалоб и исков в госорганы. Быстрая защита ваших прав.</p>
-            <div style="margin-top: 15px; font-weight: bold; color: #10b981;">Бесплатно</div>
+            <h3 style="color:#d4a843;" data-i18n="b2cTitle">Для Граждан (B2C)</h3>
+            <p data-i18n="b2cDesc">Правовой триаж: семейное, жилищное, трудовое право. Генерация жалоб и исков в госорганы. Быстрая защита ваших прав.</p>
+            <div style="margin-top: 15px; font-weight: bold; color: #10b981;" data-i18n="free1">Бесплатно</div>
           </div>
           <div class="feature-card" style="border-top: 4px solid #2563eb;">
-            <h3>Для Бизнеса (B2B)</h3>
-            <p>Анализ договоров, проверка налогового режима по ОКЭД, лицензирование и разрешения для малого и среднего бизнеса.</p>
-            <div style="margin-top: 15px; font-weight: bold; color: #10b981;">Бесплатно (Базовый)</div>
+            <h3 data-i18n="b2bTitle">Для Бизнеса (B2B)</h3>
+            <p data-i18n="b2bDesc">Анализ договоров, проверка налогового режима по ОКЭД, лицензирование и разрешения для малого и среднего бизнеса.</p>
+            <div style="margin-top: 15px; font-weight: bold; color: #10b981;" data-i18n="free2">Бесплатно (Базовый)</div>
           </div>
         </div>
       </div>
@@ -205,23 +190,23 @@
     <section id="tab-auth" class="tab-pane">
       <div class="container">
         <div class="auth-container reveal">
-          <h2>Личный кабинет</h2>
+          <h2 data-i18n="authTitle">Личный кабинет</h2>
           
           <div class="auth-form" id="authFormBlock">
-            <input type="email" id="authEmail" placeholder="Ваш Email (например: name@mail.kz)" required>
-            <input type="password" id="authPassword" placeholder="Пароль (минимум 6 символов)" required>
+            <input type="email" id="authEmail" placeholder="Ваш Email (например: name@mail.kz)" data-i18n="authEmail" required>
+            <input type="password" id="authPassword" placeholder="Пароль (минимум 6 символов)" data-i18n="authPass" required>
             
-            <button id="authLoginBtn" style="margin-bottom: 10px;">Войти</button>
-            <button id="authRegisterBtn" style="background: #e2e8f0; color: #1e3a8a;">Зарегистрироваться</button>
+            <button id="authLoginBtn" style="margin-bottom: 10px;" data-i18n="authLogin">Войти</button>
+            <button id="authRegisterBtn" style="background: #e2e8f0; color: #1e3a8a;" data-i18n="authReg">Зарегистрироваться</button>
             
             <p id="authMessage" style="text-align: center; margin-top: 15px; font-size: 0.9rem; color: #ef4444; font-weight: bold;"></p>
           </div>
 
           <div id="authProfileBlock" style="display: none; text-align: center;">
             <div style="font-size: 3rem; margin-bottom: 10px;">👤</div>
-            <p style="color: #475569; margin-bottom: 5px;">Вы авторизованы как:</p>
+            <p style="color: #475569; margin-bottom: 5px;" data-i18n="authLoggedAs">Вы авторизованы как:</p>
             <p><strong id="userEmailDisplay" style="color: #1e3a8a; font-size: 1.1rem;"></strong></p>
-            <button id="authLogoutBtn" style="background: #ef4444; margin-top: 20px; width: 100%; padding: 12px; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">Выйти из аккаунта</button>
+            <button id="authLogoutBtn" style="background: #ef4444; margin-top: 20px; width: 100%; padding: 12px; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;" data-i18n="authLogout">Выйти из аккаунта</button>
           </div>
 
         </div>
@@ -231,6 +216,77 @@
   </main>
 
   <script>
+    // --- ПЕРЕВОДЧИК ---
+    // Глобальная переменная языка, чтобы app.js мог её читать
+    window.currentLanguage = 'ru'; 
+
+    const translations = {
+      ru: {
+        navChat: "Чат с Zetef", navFeatures: "Возможности", navServices: "Наши услуги", navAuth: "Регистрация",
+        titleMain: "Ваш личный ИИ-юрист", subtitleMain: "Выберите быстрый сценарий или опишите свою проблему подробно. Zetef анализирует законы РК в реальном времени.",
+        scen1: `<span class="s-icon">💼</span><span>Меня уволили без предупреждения</span>`,
+        scen2: `<span class="s-icon">🧾</span><span>Какой налог выбрать для ТОО?</span>`,
+        scen3: `<span class="s-icon">🏠</span><span>Не возвращают депозит за квартиру</span>`,
+        scen4: `<span class="s-icon">🛒</span><span>Как вернуть некачественный товар?</span>`,
+        chatStatus: "Онлайн · Законы РК 2024", chatMeta: "Zetef · сейчас", chatInput: "Опишите вашу ситуацию...",
+        welcomeMsg: "Здравствуйте. Я Zetef. Опишите вашу правовую ситуацию, и я предоставлю анализ согласно законодательству Республики Казахстан.",
+        featTitle: "Что умеет Zetef и как им пользоваться?", featSubtitle: "Zetef — это строгий ИИ-юрист, обученный на законодательной базе Республики Казахстан.",
+        feat1Title: "Составление документов", feat1Desc: "Zetef может за секунды сгенерировать претензию, иск, жалобу или официальное письмо с правильными ссылками на статьи законов РК.",
+        feat2Title: "Правовой анализ ситуаций", feat2Desc: "Опишите вашу проблему. Zetef задаст уточняющие вопросы и выдаст четкий алгоритм действий для защиты ваших прав.",
+        feat3Title: "Поддержка бизнеса (B2B)", feat3Desc: "Бот поможет выбрать налоговый режим, проверит договоры на подводные камни по ГК РК и подскажет, как легально избежать штрафов.",
+        feat4Title: "Защита прав потребителей", feat4Desc: "Продали бракованный товар или отказываются возвращать деньги? Zetef расскажет, как применить закон на практике.",
+        servTitle: "Наши Услуги", servSubtitle: "Базовые юридические консультации бесплатны. Для бизнеса мы предлагаем продвинутые решения.",
+        b2cTitle: "Для Граждан (B2C)", b2cDesc: "Правовой триаж: семейное, жилищное, трудовое право. Генерация жалоб и исков в госорганы. Быстрая защита ваших прав.", free1: "Бесплатно",
+        b2bTitle: "Для Бизнеса (B2B)", b2bDesc: "Анализ договоров, проверка налогового режима по ОКЭД, лицензирование и разрешения для малого и среднего бизнеса.", free2: "Бесплатно (Базовый)",
+        authTitle: "Личный кабинет", authEmail: "Ваш Email (например: name@mail.kz)", authPass: "Пароль (минимум 6 символов)",
+        authLogin: "Войти", authReg: "Зарегистрироваться", authLoggedAs: "Вы авторизованы как:", authLogout: "Выйти из аккаунта"
+      },
+      kz: {
+        navChat: "Zetef-пен чат", navFeatures: "Мүмкіндіктер", navServices: "Қызметтер", navAuth: "Тіркелу",
+        titleMain: "Сіздің жеке ЖИ-заңгеріңіз", subtitleMain: "Жылдам сценарийді таңдаңыз немесе мәселеңізді толық сипаттаңыз. Zetef ҚР заңдарын нақты уақытта талдайды.",
+        scen1: `<span class="s-icon">💼</span><span>Мені ескертусіз жұмыстан шығарды</span>`,
+        scen2: `<span class="s-icon">🧾</span><span>ЖШС үшін қандай салықты таңдау керек?</span>`,
+        scen3: `<span class="s-icon">🏠</span><span>Пәтер депозитін қайтармай жатыр</span>`,
+        scen4: `<span class="s-icon">🛒</span><span>Сапасыз тауарды қалай қайтаруға болады?</span>`,
+        chatStatus: "Онлайн · ҚР Заңдары 2024", chatMeta: "Zetef · қазір", chatInput: "Жағдайыңызды сипаттаңыз...",
+        welcomeMsg: "Сәлеметсіз бе. Мен Zetef. Құқықтық жағдайыңызды сипаттаңыз, мен Қазақстан Республикасының заңнамасына сәйкес талдау жасаймын.",
+        featTitle: "Zetef не істей алады және оны қалай қолдануға болады?", featSubtitle: "Zetef — Қазақстан Республикасының заңнамалық базасында оқытылған қатаң ЖИ-заңгер.",
+        feat1Title: "Құжаттарды құрастыру", feat1Desc: "Zetef бірнеше секунд ішінде ҚР заңдарының баптарына дұрыс сілтеме жасай отырып, шағым, талап-арыз немесе ресми хат құрастыра алады.",
+        feat2Title: "Жағдайларды құқықтық талдау", feat2Desc: "Мәселеңізді сипаттаңыз. Zetef нақтылаушы сұрақтар қойып, құқығыңызды қорғау үшін нақты іс-қимыл алгоритмін береді.",
+        feat3Title: "Бизнесті қолдау (B2B)", feat3Desc: "Бот салық режимін таңдауға көмектеседі, келісімшарттарды ҚР АК бойынша тексереді және айыппұлдардан заңды түрде қалай құтылу керектігін айтады.",
+        feat4Title: "Тұтынушылардың құқықтарын қорғау", feat4Desc: "Сапасыз тауар сатты ма немесе ақшаңызды қайтарудан бас тартты ма? Zetef заңды іс жүзінде қалай қолдану керектігін түсіндіреді.",
+        servTitle: "Біздің қызметтер", servSubtitle: "Негізгі заңгерлік кеңестер тегін. Бизнес үшін біз жетілдірілген шешімдерді ұсынамыз.",
+        b2cTitle: "Азаматтар үшін (B2C)", b2cDesc: "Құқықтық триаж: отбасылық, тұрғын үй, еңбек құқығы. Мемлекеттік органдарға шағымдар мен талап-арыздар құрастыру.", free1: "Тегін",
+        b2bTitle: "Бизнес үшін (B2B)", b2bDesc: "Келісімшарттарды талдау, ШҚЭЖ (ОКЭД) бойынша салық режимін тексеру, шағын және орта бизнес үшін лицензиялау.", free2: "Тегін (Негізгі)",
+        authTitle: "Жеке кабинет", authEmail: "Сіздің Email (мысалы: name@mail.kz)", authPass: "Құпия сөз (кем дегенде 6 таңба)",
+        authLogin: "Кіру", authReg: "Тіркелу", authLoggedAs: "Сіз келесідей авторландыңыз:", authLogout: "Аккаунттан шығу"
+      }
+    };
+
+    function changeLanguage(lang) {
+      window.currentLanguage = lang; // Сохраняем выбранный язык
+      
+      // Меняем активную кнопку
+      document.getElementById('btnRU').classList.toggle('active', lang === 'ru');
+      document.getElementById('btnKZ').classList.toggle('active', lang === 'kz');
+
+      // Переводим все элементы с атрибутом data-i18n
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.getAttribute('data-i18n');
+        if (translations[lang][key]) {
+          if (el.tagName === 'INPUT') {
+            el.placeholder = translations[lang][key]; // Для полей ввода
+          } else {
+            el.innerHTML = translations[lang][key]; // Для обычного текста
+          }
+        }
+      });
+    }
+
+    document.getElementById('btnRU').addEventListener('click', () => changeLanguage('ru'));
+    document.getElementById('btnKZ').addEventListener('click', () => changeLanguage('kz'));
+
+    // --- ЛОГИКА ВКЛАДОК И МЕНЮ ---
     const hamburgerBtn = document.getElementById('hamburgerBtn');
     const navLinksMenu = document.getElementById('navLinksMenu');
 
@@ -241,16 +297,9 @@
     }
 
     function switchTab(tabId) {
-      if (navLinksMenu) {
-        navLinksMenu.classList.remove('active-menu');
-      }
-
-      document.querySelectorAll('.tab-pane').forEach(tab => {
-        tab.classList.remove('active');
-      });
-      document.querySelectorAll('.tab-link').forEach(link => {
-        link.classList.remove('active');
-      });
+      if (navLinksMenu) navLinksMenu.classList.remove('active-menu');
+      document.querySelectorAll('.tab-pane').forEach(tab => tab.classList.remove('active'));
+      document.querySelectorAll('.tab-link').forEach(link => link.classList.remove('active'));
 
       const activeTab = document.getElementById(tabId);
       if(activeTab) activeTab.classList.add('active');
@@ -261,12 +310,11 @@
   </script>
 
   <script src="app.js"></script>
- <script type="module">
-    // 1. Импортируем Firebase
+  
+  <script type="module">
     import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
     import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
 
-    // 2. Ваши ключи
     const firebaseConfig = {
       apiKey: "AIzaSyD8_ngGR9_OTWER31hCnkVrqlaAZiocHIo",
       authDomain: "zangerfetch.firebaseapp.com",
@@ -276,11 +324,9 @@
       appId: "1:748332046911:web:8f1e76b67494a0d76d768a"
     };
 
-    // 3. Запускаем Firebase
     const app = initializeApp(firebaseConfig);
     const auth = getAuth(app);
 
-    // Ищем элементы
     const authFormBlock = document.getElementById('authFormBlock');
     const authProfileBlock = document.getElementById('authProfileBlock');
     const authEmail = document.getElementById('authEmail');
@@ -291,10 +337,8 @@
     const authMessage = document.getElementById('authMessage');
     const userEmailDisplay = document.getElementById('userEmailDisplay');
 
-    // 4. Следим за входом
     onAuthStateChanged(auth, (user) => {
       if (user) {
-        // Небольшая задержка, чтобы пользователь успел прочитать "Вы зарегистрированы"
         setTimeout(() => {
           authFormBlock.style.display = 'none';
           authProfileBlock.style.display = 'block';
@@ -309,57 +353,47 @@
       }
     });
 
-    // 5. Логика регистрации (ИСПРАВЛЕННАЯ)
     authRegisterBtn.addEventListener('click', () => {
       const email = authEmail.value;
       const password = authPassword.value;
-      if (!email || !password) {
-        authMessage.style.color = '#ef4444';
-        authMessage.textContent = 'Пожалуйста, введите Email и пароль!';
-        return;
-      }
+      if (!email || !password) return;
+      
       authMessage.style.color = '#1e3a8a';
-      authMessage.textContent = 'Создаем аккаунт...';
+      authMessage.textContent = '...';
       
       createUserWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
-          // ВОТ ЭТО Я ЗАБЫЛ: Сообщение об успехе
-          authMessage.style.color = '#10b981'; // Зеленый цвет
-          authMessage.textContent = 'Успешно! Вы зарегистрированы.';
-        })
-        .catch((error) => {
-          authMessage.style.color = '#ef4444'; // Красный цвет
-          if (error.code === 'auth/email-already-in-use') authMessage.textContent = 'Этот Email уже занят. Нажмите "Войти".';
-          else if (error.code === 'auth/weak-password') authMessage.textContent = 'Пароль должен быть не менее 6 символов.';
-          else authMessage.textContent = 'Ошибка: ' + error.message;
-        });
-    });
-
-    // 6. Логика входа (ИСПРАВЛЕННАЯ)
-    authLoginBtn.addEventListener('click', () => {
-      const email = authEmail.value;
-      const password = authPassword.value;
-      if (!email || !password) {
-        authMessage.style.color = '#ef4444';
-        authMessage.textContent = 'Пожалуйста, введите Email и пароль!';
-        return;
-      }
-      authMessage.style.color = '#1e3a8a';
-      authMessage.textContent = 'Входим...';
-
-      signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
+        .then(() => {
           authMessage.style.color = '#10b981';
-          authMessage.textContent = 'Вход выполнен!';
+          authMessage.textContent = window.currentLanguage === 'kz' ? 'Сәтті! Сіз тіркелдіңіз.' : 'Успешно! Вы зарегистрированы.';
         })
         .catch((error) => {
           authMessage.style.color = '#ef4444';
-          authMessage.textContent = 'Неверный Email или пароль.';
+          authMessage.textContent = 'Ошибка / Қате: ' + error.message;
         });
     });
 
-    // 7. Логика выхода
+    authLoginBtn.addEventListener('click', () => {
+      const email = authEmail.value;
+      const password = authPassword.value;
+      if (!email || !password) return;
+
+      authMessage.style.color = '#1e3a8a';
+      authMessage.textContent = '...';
+
+      signInWithEmailAndPassword(auth, email, password)
+        .then(() => {
+          authMessage.style.color = '#10b981';
+          authMessage.textContent = window.currentLanguage === 'kz' ? 'Кіру орындалды!' : 'Вход выполнен!';
+        })
+        .catch(() => {
+          authMessage.style.color = '#ef4444';
+          authMessage.textContent = window.currentLanguage === 'kz' ? 'Қате Email немесе құпия сөз.' : 'Неверный Email или пароль.';
+        });
+    });
+
     authLogoutBtn.addEventListener('click', () => {
       signOut(auth);
     });
   </script>
+</body>
+</html>
