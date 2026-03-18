@@ -41,9 +41,12 @@
     .chat-send:hover { background: #1d4ed8 !important; }
     .msg-bubble { box-shadow: 0 2px 5px rgba(0,0,0,0.05) !important; }
 
-    /* Мобильное меню */
+    /* =========================================
+       МОБИЛЬНОЕ МЕНЮ (ИСПРАВЛЕННЫЕ ЦВЕТА)
+       ========================================= */
     .nav-inner { position: relative; display: flex; align-items: center; justify-content: space-between; }
     .hamburger { display: none; cursor: pointer; flex-direction: column; gap: 5px; margin-left: 15px; }
+    /* Полоски гамбургера теперь БЕЛЫЕ, чтобы их было видно на синей шапке */
     .hamburger span { width: 25px; height: 3px; background: #ffffff; border-radius: 3px; transition: 0.3s; }
     
     @media (max-width: 768px) {
@@ -63,6 +66,7 @@
       }
       .nav-links.active-menu { display: flex !important; } 
       .nav-links li { margin: 12px 0; text-align: center; }
+      /* Текст принудительно делаем СИНИМ (!important), чтобы перебить белый цвет из style.css */
       .nav-links a { color: #1e3a8a !important; font-size: 1.1rem; }
       .nav-links a.active { color: #2563eb !important; border-bottom: 2px solid #2563eb !important; padding-bottom: 4px; }
     }
@@ -112,4 +116,211 @@
               <button class="scenario-btn" data-scenario="fired"><span class="s-icon">💼</span><span>Меня уволили без предупреждения</span></button>
               <button class="scenario-btn" data-scenario="tax"><span class="s-icon">🧾</span><span>Какой налог выбрать для ТОО?</span></button>
               <button class="scenario-btn" data-scenario="rent"><span class="s-icon">🏠</span><span>Не возвращают депозит за квартиру</span></button>
-              <button class="scenario-btn" data-scenario="consumer"><span class="s-icon">🛒</span><span>Как вернуть некаче
+              <button class="scenario-btn" data-scenario="consumer"><span class="s-icon">🛒</span><span>Как вернуть некачественный товар?</span></button>
+            </div>
+          </div>
+          
+          <div class="chat-window reveal" style="width: 100%; max-width: 600px; border: 1px solid #e2e8f0; box-shadow: 0 10px 30px rgba(37, 99, 235, 0.1);">
+            <div class="chat-header">
+              <div class="chat-avatar" style="background: rgba(255,255,255,0.2);">⚖️</div>
+              <div class="chat-header-info">
+                <div class="chat-name">Zetef (ZF)</div>
+                <div class="chat-status">Онлайн · Законы РК 2024</div>
+              </div>
+            </div>
+            <div class="chat-messages" id="chatMessages" style="background: #ffffff;">
+              <div class="msg ai">
+                <div class="msg-avatar" style="background: #eff6ff; border: 1px solid #bfdbfe;">⚖️</div>
+                <div>
+                  <div class="msg-bubble" id="welcomeMsg">
+                    Здравствуйте. Я Zetef. Опишите вашу правовую ситуацию, и я предоставлю анализ согласно законодательству Республики Казахстан.
+                  </div>
+                  <div class="msg-meta">Zetef · сейчас</div>
+                </div>
+              </div>
+            </div>
+            <div class="chat-input-area">
+              <input type="text" class="chat-input" id="chatInput" placeholder="Опишите вашу ситуацию..." />
+              <button class="chat-send" id="chatSend">➤</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-features" class="tab-pane">
+      <div class="container">
+        <div class="usecases-header text-center reveal">
+          <h2 class="section-title">Что умеет Zetef и как им пользоваться?</h2>
+          <p class="section-subtitle">Zetef — это строгий ИИ-юрист, обученный на законодательной базе Республики Казахстан.</p>
+        </div>
+        
+        <div class="features-grid">
+          <div class="feature-card">
+            <div class="feature-icon">📝</div>
+            <h3>Составление документов</h3>
+            <p>Zetef может за секунды сгенерировать претензию, иск, жалобу или официальное письмо с правильными ссылками на статьи законов РК.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🔍</div>
+            <h3>Правовой анализ ситуаций</h3>
+            <p>Опишите вашу проблему. Zetef задаст уточняющие вопросы и выдаст четкий алгоритм действий для защиты ваших прав.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">💼</div>
+            <h3>Поддержка бизнеса (B2B)</h3>
+            <p>Бот поможет выбрать налоговый режим, проверит договоры на подводные камни по ГК РК и подскажет, как легально избежать штрафов.</p>
+          </div>
+          <div class="feature-card">
+            <div class="feature-icon">🛡️</div>
+            <h3>Защита прав потребителей</h3>
+            <p>Продали бракованный товар или отказываются возвращать деньги? Zetef расскажет, как применить закон на практике.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-services" class="tab-pane">
+      <div class="container">
+        <div class="modules-header text-center reveal">
+          <h2 class="section-title">Наши Услуги</h2>
+          <p class="section-subtitle">Базовые юридические консультации бесплатны. Для бизнеса мы предлагаем продвинутые решения.</p>
+        </div>
+        
+        <div class="features-grid" style="margin-bottom: 40px;">
+          <div class="feature-card" style="border-top: 4px solid #d4a843;">
+            <h3 style="color:#d4a843;">Для Граждан (B2C)</h3>
+            <p>Правовой триаж: семейное, жилищное, трудовое право. Генерация жалоб и исков в госорганы. Быстрая защита ваших прав.</p>
+            <div style="margin-top: 15px; font-weight: bold; color: #10b981;">Бесплатно</div>
+          </div>
+          <div class="feature-card" style="border-top: 4px solid #2563eb;">
+            <h3>Для Бизнеса (B2B)</h3>
+            <p>Анализ договоров, проверка налогового режима по ОКЭД, лицензирование и разрешения для малого и среднего бизнеса.</p>
+            <div style="margin-top: 15px; font-weight: bold; color: #10b981;">Бесплатно (Базовый)</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="tab-auth" class="tab-pane">
+      <div class="container">
+        <div class="auth-container reveal">
+          <h2>Личный кабинет</h2>
+          
+          <div class="auth-form" id="authFormBlock">
+            <input type="email" id="authEmail" placeholder="Ваш Email (например: name@mail.kz)" required>
+            <input type="password" id="authPassword" placeholder="Пароль (минимум 6 символов)" required>
+            
+            <button id="authLoginBtn" style="margin-bottom: 10px;">Войти</button>
+            <button id="authRegisterBtn" style="background: #e2e8f0; color: #1e3a8a;">Зарегистрироваться</button>
+            
+            <p id="authMessage" style="text-align: center; margin-top: 15px; font-size: 0.9rem; color: #ef4444; font-weight: bold;"></p>
+          </div>
+
+          <div id="authProfileBlock" style="display: none; text-align: center;">
+            <div style="font-size: 3rem; margin-bottom: 10px;">👤</div>
+            <p style="color: #475569; margin-bottom: 5px;">Вы авторизованы как:</p>
+            <p><strong id="userEmailDisplay" style="color: #1e3a8a; font-size: 1.1rem;"></strong></p>
+            <button id="authLogoutBtn" style="background: #ef4444; margin-top: 20px; width: 100%; padding: 12px; color: white; border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">Выйти из аккаунта</button>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <script>
+    const hamburgerBtn = document.getElementById('hamburgerBtn');
+    const navLinksMenu = document.getElementById('navLinksMenu');
+
+    if (hamburgerBtn && navLinksMenu) {
+      hamburgerBtn.addEventListener('click', () => {
+        navLinksMenu.classList.toggle('active-menu');
+      });
+    }
+
+    function switchTab(tabId) {
+      if (navLinksMenu) {
+        navLinksMenu.classList.remove('active-menu');
+      }
+
+      document.querySelectorAll('.tab-pane').forEach(tab => {
+        tab.classList.remove('active');
+      });
+      document.querySelectorAll('.tab-link').forEach(link => {
+        link.classList.remove('active');
+      });
+
+      const activeTab = document.getElementById(tabId);
+      if(activeTab) activeTab.classList.add('active');
+
+      const activeLink = document.querySelector(`.tab-link[onclick="switchTab('${tabId}')"]`);
+      if(activeLink) activeLink.classList.add('active');
+    }
+  </script>
+
+  <script src="app.js"></script>
+  <script type="module">
+    // 1. Импортируем Firebase из интернета напрямую в браузер
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
+    import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
+
+    // 2. Ваши ключи от базы данных ZangerFetch
+    const firebaseConfig = {
+      apiKey: "AIzaSyD8_ngGR9_OTWER31hCnkVrqlaAZiocHIo",
+      authDomain: "zangerfetch.firebaseapp.com",
+      projectId: "zangerfetch",
+      storageBucket: "zangerfetch.firebasestorage.app",
+      messagingSenderId: "748332046911",
+      appId: "1:748332046911:web:8f1e76b67494a0d76d768a"
+    };
+
+    // 3. Запускаем Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    // Ищем элементы на странице
+    const authFormBlock = document.getElementById('authFormBlock');
+    const authProfileBlock = document.getElementById('authProfileBlock');
+    const authEmail = document.getElementById('authEmail');
+    const authPassword = document.getElementById('authPassword');
+    const authLoginBtn = document.getElementById('authLoginBtn');
+    const authRegisterBtn = document.getElementById('authRegisterBtn');
+    const authLogoutBtn = document.getElementById('authLogoutBtn');
+    const authMessage = document.getElementById('authMessage');
+    const userEmailDisplay = document.getElementById('userEmailDisplay');
+
+    // 4. Главный шпион: следит, вошел пользователь или вышел
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // Ура, мы авторизованы! Прячем форму, показываем профиль
+        authFormBlock.style.display = 'none';
+        authProfileBlock.style.display = 'block';
+        userEmailDisplay.textContent = user.email;
+        authMessage.textContent = ''; 
+      } else {
+        // Мы не в системе. Показываем форму входа
+        authFormBlock.style.display = 'block';
+        authProfileBlock.style.display = 'none';
+        authEmail.value = '';
+        authPassword.value = '';
+      }
+    });
+
+    // 5. Логика кнопки "Зарегистрироваться"
+    authRegisterBtn.addEventListener('click', () => {
+      const email = authEmail.value;
+      const password = authPassword.value;
+      if (!email || !password) {
+        authMessage.textContent = 'Пожалуйста, введите Email и пароль!';
+        return;
+      }
+      authMessage.style.color = '#1e3a8a';
+      authMessage.textContent = 'Создаем аккаунт...';
+      
+      createUserWithEmailAndPassword(auth, email, password)
+        .catch((error) => {
+          authMessage.style.color = '#ef4444';
+          if (error.code === 'auth/email-already-in-use') authMessage.textContent = 'Этот Email уже занят. Нажмите "Войти".';
+          else if (error.code === 'auth/weak-password') authMessage.textContent = 'Пароль должен быть не менее 6 символов.';
